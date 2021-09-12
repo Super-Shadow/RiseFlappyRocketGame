@@ -4,9 +4,14 @@
 
 extern Rise::Application* Rise::CreateApplication();
 
-int main(int argc, char** argv)
+inline int main(int argc, char** argv)
 {
-	auto app = Rise::CreateApplication();
+	Rise::Log::Init();
+	RS_CORE_WARN("Initialised Log!");
+	auto a = 5;
+	RS_INFO("Hello! Var={0}", a);
+
+	const auto app = Rise::CreateApplication();
 	app->Run();
 	delete app;
 }

@@ -27,9 +27,15 @@
     <ClInclude Include="src\Rise\EntryPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rise\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rise\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rise\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
