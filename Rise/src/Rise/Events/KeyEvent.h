@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Rise
 {
 	class RISE_API KeyEvent : public Event

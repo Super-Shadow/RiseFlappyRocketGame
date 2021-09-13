@@ -11,6 +11,11 @@ workspace "Rise"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+--Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Rise/vendor/GLFW/include"
+
+include "Rise/vendor/GLFW"
 
 project "Rise"
 	location "Rise"
@@ -19,6 +24,9 @@ project "Rise"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	pchheader "rspch.h"
+	pchsource "Rise/src/rspch.cpp"
 
 	files
 	{
@@ -29,12 +37,19 @@ project "Rise"
 	includedirs
 	{
 		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/src"
+		"%{prj.name}/src",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
 		cppdialect "C++20"
-		staticruntime "On"
+		staticruntime "Off"
 		systemversion "latest"
 
 		defines

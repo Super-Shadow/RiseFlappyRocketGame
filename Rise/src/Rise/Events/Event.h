@@ -2,9 +2,6 @@
 
 #include "Rise/Core.h"
 
-#include <string>
-#include <functional>
-
 namespace Rise
 {
 	// Event in Rise are currently blockeing, meaning when and event occurs it immediately gets dispatched and must be dealt with right there and then.
