@@ -4,6 +4,9 @@
     <Filter Include="Rise">
       <UniqueIdentifier>{78D48B7C-640B-8D0D-0DF8-7210F90D090F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rise\Events">
+      <UniqueIdentifier>{5CC9C6A0-C87E-3F96-5173-396DBD27369A}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rise.h" />
@@ -15,6 +18,18 @@
     </ClInclude>
     <ClInclude Include="src\Rise\EntryPoint.h">
       <Filter>Rise</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rise\Events\ApplicationEvent.h">
+      <Filter>Rise\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rise\Events\Event.h">
+      <Filter>Rise\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rise\Events\KeyEvent.h">
+      <Filter>Rise\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rise\Events\MouseEvent.h">
+      <Filter>Rise\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Rise\Log.h">
       <Filter>Rise</Filter>
