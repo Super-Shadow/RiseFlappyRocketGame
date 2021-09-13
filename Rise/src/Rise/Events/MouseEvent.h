@@ -9,10 +9,10 @@ namespace Rise
 	class RISE_API MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {}
+		MouseMovedEvent(const float x, const float y) : m_MouseX(x), m_MouseY(y) {}
 
-		inline float GetX() const { return m_MouseX; }
-		inline float GetY() const { return m_MouseY; }
+		float GetX() const { return m_MouseX; }
+		float GetY() const { return m_MouseY; }
 
 		[[nodiscard]] std::string ToString() const override
 		{
@@ -30,15 +30,15 @@ namespace Rise
 	class RISE_API MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent(float x, float y) : m_XOffset(x), m_YOffset(y) {}
+		MouseScrolledEvent(const float x, const float y) : m_XOffset(x), m_YOffset(y) {}
 
-		inline float GetXOffset() const { return m_XOffset; }
-		inline float GetYOffset() const { return m_YOffset; }
+		float GetXOffset() const { return m_XOffset; }
+		float GetYOffset() const { return m_YOffset; }
 
 		[[nodiscard]] std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseMovedEvent:" << GetXOffset() << ", " << GetYOffset();
+			ss << "MouseScrolledEvent:" << GetXOffset() << ", " << GetYOffset();
 			return ss.str();
 		}
 
@@ -52,18 +52,18 @@ namespace Rise
 	class RISE_API MouseButtonEvent : public Event
 	{
 	public:
-		inline int GetMouseButton() const { return m_Button; }
+		int GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(int button) : m_Button(button) {}
+		MouseButtonEvent(const int button) : m_Button(button) {}
 		int m_Button;
 	};
 
-	class RISE_API MouseButtonPressedEvent : public MouseButtonEvent
+	class RISE_API MouseButtonPressedEvent final : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
+		MouseButtonPressedEvent(const int button) : MouseButtonEvent(button) {}
 
 		[[nodiscard]] std::string ToString() const override
 		{
@@ -75,10 +75,10 @@ namespace Rise
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class RISE_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class RISE_API MouseButtonReleasedEvent final : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
+		MouseButtonReleasedEvent(const int button) : MouseButtonEvent(button) {}
 
 		[[nodiscard]] std::string ToString() const override
 		{

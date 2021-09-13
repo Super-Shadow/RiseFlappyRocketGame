@@ -13,7 +13,7 @@ namespace Rise
 		unsigned int Width;
 		unsigned int Height;
 
-		WindowProps(const std::string& title = "Rise Engine", unsigned int width = 1280, unsigned int height = 720) : Title(title), Width(width), Height(height){}
+		WindowProps(const std::string& title = "Rise Engine", const unsigned int width = 1280, const unsigned int height = 720) : Title(title), Width(width), Height(height){}
 	};
 
 	// Interface representing a desktop system based Window
@@ -27,13 +27,13 @@ namespace Rise
 
 		virtual void OnUpdate() abstract;
 
-		virtual unsigned int GetWidth() const abstract;
-		virtual unsigned int GetHeight() const abstract;
+		[[nodiscard]] virtual unsigned int GetWidth() const abstract;
+		[[nodiscard]] virtual unsigned int GetHeight() const abstract;
 
 		// Window attributes
 		virtual void SetEventCallback(const EventCallbackFn& callback) abstract;
 		virtual void SetVSync(bool enabled) abstract;
-		virtual bool IsVSync() const abstract;
+		[[nodiscard]] virtual bool IsVSync() const abstract;
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};

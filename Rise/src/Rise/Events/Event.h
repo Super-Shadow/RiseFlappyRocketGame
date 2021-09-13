@@ -72,12 +72,9 @@ namespace Rise
 		{
 			if(m_Event.GetEventType() == T::GetStaticType())
 			{
-				// maybe better ways will have to check once code it fully complete!
-				// I will be able to compare results of each one, ideally want bit_cast since it is the newest but idk if it is what the code wants u dig dog!
-				//				m_Event.m_Handled = func(*std::bit_cast<T*>(&m_Event));
-				//				m_Event.m_Handled = func(*static_cast<T*>(&m_Event));
-
-				m_Event.m_Handled = func(*(T*)(&m_Event));
+				//m_Event.m_Handled = func(*std::bit_cast<T*>(&m_Event));
+				m_Event.m_Handled = func(*dynamic_cast<T*>(&m_Event)); // Dynamic cast since we are casting a base class to a derived class at runtime.
+				//m_Event.m_Handled = func(*(T*)(&m_Event));
 				return true;
 			}
 			return false;

@@ -7,18 +7,18 @@ namespace Rise
 	class RISE_API KeyEvent : public Event
 	{
 	public:
-		inline int GetKeyCode() const { return m_KeyCode; }
+		int GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		KeyEvent(int keycode) : m_KeyCode(keycode) {}
+		KeyEvent(const int keycode) : m_KeyCode(keycode) {}
 		int m_KeyCode;
 	};
 
-	class RISE_API KeyPressedEvent : public KeyEvent
+	class RISE_API KeyPressedEvent final : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
+		KeyPressedEvent(const int keycode, const int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
 		[[nodiscard]] int GetRepeatCount() const { return m_RepeatCount; }
 
@@ -36,10 +36,10 @@ namespace Rise
 		int m_RepeatCount;
 	};
 
-	class RISE_API KeyReleasedEvent : public KeyEvent
+	class RISE_API KeyReleasedEvent final : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
+		KeyReleasedEvent(const int keycode) : KeyEvent(keycode) {}
 
 		[[nodiscard]] std::string ToString() const override 
 		{
