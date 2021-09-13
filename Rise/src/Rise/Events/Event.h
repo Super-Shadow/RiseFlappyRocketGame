@@ -1,5 +1,6 @@
 #pragma once
 
+#include "rspch.h"
 #include "Rise/Core.h"
 
 namespace Rise
@@ -44,7 +45,6 @@ namespace Rise
 
 	class RISE_API Event
 	{
-		friend class EventDispatcher;
 	public:
 		virtual ~Event() = default;
 		[[nodiscard]] virtual EventType GetEventType() const abstract;
@@ -56,7 +56,7 @@ namespace Rise
 		{
 			return GetCategoryFlags() & category;
 		}
-	protected:
+	//protected:
 		bool m_Handled = false;
 	};
 

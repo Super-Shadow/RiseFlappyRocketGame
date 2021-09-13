@@ -1,7 +1,6 @@
 #include "rspch.h"
 
 #include "Application.h"
-
 #include <GL/gl.h>
 
 namespace Rise
@@ -26,6 +25,11 @@ namespace Rise
 		{
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for (Layer* layer : m_LayerStack)
+			{
+				layer->OnUpdate();
+			}
 			m_Window->OnUpdate();
 		}
 	}
@@ -36,6 +40,23 @@ namespace Rise
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
 
 		RS_CORE_TRACE("{0}", e);
+
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		{
+			(*--it)->OnEvent(e);
+			if (e.m_Handled)
+				break;
+		}
+	}
+
+	void Application::PushLayer(Layer* layer)
+	{
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* layer)
+	{
+		m_LayerStack.PushOverlay(layer);
 	}
 
 	bool Application::OnWindowClosed(WindowCloseEvent& e)
