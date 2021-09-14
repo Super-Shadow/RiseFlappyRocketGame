@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Rise/Window.h"
-
 #include <GLFW/glfw3.h>
 
 namespace Rise
@@ -14,13 +13,13 @@ namespace Rise
 
 		void OnUpdate() override;
 
-		inline unsigned int GetWidth() const override { return m_Data.Width; }
-		inline unsigned int GetHeight() const override { return m_Data.Width; }
+		[[nodiscard]] unsigned int GetWidth() const override { return m_Data.Width; }
+		[[nodiscard]] unsigned int GetHeight() const override { return m_Data.Width; }
 
 		// Window attributes
-		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+		void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
-		bool IsVSync() const override;
+		[[nodiscard]] bool IsVSync() const override;
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
@@ -30,8 +29,8 @@ namespace Rise
 		struct WindowData
 		{
 			std::string Title;
-			unsigned int Width, Height;
-			bool VSync;
+			int Width = 1280, Height = 720;
+			bool VSync = true;
 
 			EventCallbackFn EventCallback;
 		};

@@ -1,12 +1,13 @@
 #include "rspch.h"
 
 #include "Application.h"
-#include <GL/gl.h>
+#include <glad/glad.h>
 
 namespace Rise
 {
 //#define BIND_EVENT_FN(x) [this]<typename T0>(T0&& PH1) { Application::x(std::forward<T0>(PH1)); }
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+
 	Application::Application()
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());

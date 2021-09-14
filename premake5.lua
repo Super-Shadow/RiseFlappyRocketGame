@@ -14,8 +14,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 --Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Rise/vendor/GLFW/include"
+IncludeDir["Glad"] = "Rise/vendor/Glad/include"
 
 include "Rise/vendor/GLFW"
+include "Rise/vendor/Glad"
 
 project "Rise"
 	location "Rise"
@@ -38,12 +40,14 @@ project "Rise"
 	{
 		"%{prj.name}/vendor/spdlog/include",
 		"%{prj.name}/src",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -55,7 +59,8 @@ project "Rise"
 		defines
 		{
 			"RS_PLATFORM_WINDOWS",
-			"RS_BUILD_DLL"
+			"RS_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
