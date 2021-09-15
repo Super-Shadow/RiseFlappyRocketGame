@@ -73,19 +73,18 @@ project "Rise"
 		}
 
 	filter "configurations:Debug"
-		defines 
-		{
-			"RS_DEBUG",
-			"RS_ENABLE_ASSERTS"
-		}
+		defines "RS_DEBUG"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "RS_RELEASE"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "RS_DIST"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
@@ -125,12 +124,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "RS_DEBUG"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "RS_RELEASE"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "RS_DIST"
+		runtime "Release"
 		optimize "On"

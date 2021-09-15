@@ -10,6 +10,10 @@
 	#error Rise only supports Windows!
 #endif
 
+#ifdef RS_DEBUG
+	#define RS_ENABLE_ASSERTS
+#endif
+
 #ifdef RS_ENABLE_ASSERTS
 	#define RS_ASSERT(x, ...) { if(!(x)) { RS_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define RS_CORE_ASSERT(x, ...) { if(!(x)) { RS_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
