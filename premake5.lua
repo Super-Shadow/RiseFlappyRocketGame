@@ -17,9 +17,12 @@ IncludeDir["GLFW"] = "Rise/vendor/GLFW/include"
 IncludeDir["Glad"] = "Rise/vendor/Glad/include"
 IncludeDir["ImGui"] = "Rise/vendor/imgui"
 
-include "Rise/vendor/GLFW"
-include "Rise/vendor/Glad"
-include "Rise/vendor/imgui"
+group "Dependencies"
+	include "Rise/vendor/GLFW"
+	include "Rise/vendor/Glad"
+	include "Rise/vendor/imgui"
+
+group ""
 
 project "Rise"
 	location "Rise"
@@ -69,7 +72,7 @@ project "Rise"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
