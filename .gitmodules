@@ -4,3 +4,6 @@
 [submodule "Rise/vendor/GLFW"]
 	path = Rise/vendor/GLFW
 	url = https://github.com/Super-Shadow/glfw
+[submodule "Rise/vendor/imgui"]
+	path = Rise/vendor/imgui
+	url = https://github.com/Super-Shadow/imgui

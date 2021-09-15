@@ -2,8 +2,6 @@
 
 #ifdef RS_PLATFORM_WINDOWS
 
-extern Rise::Application* Rise::CreateApplication();
-
 inline int main(int argc, char** argv)
 {
 	Rise::Log::Init();

@@ -112,6 +112,15 @@ namespace Rise
 			}
 		});
 
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, const unsigned int keyCode)
+		{
+			const auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+			KeyTypedEvent event(static_cast<int>(keyCode));
+			data.EventCallback(event);
+
+		});
+
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, const int button, const int action, int mods)
 		{
 			const auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));

@@ -21,6 +21,7 @@ namespace Rise
 		AppRender,
 		KeyPressed,
 		KeyReleased,
+		KeyTyped,
 		MouseButtonPressed,
 		MouseButtonReleased,
 		MouseMoved,
@@ -52,7 +53,7 @@ namespace Rise
 		[[nodiscard]] virtual int GetCategoryFlags() const abstract;
 		[[nodiscard]] virtual std::string ToString() const { return GetName(); }
 
-		[[nodiscard]] bool IsInCategory(EventCategory category) const
+		[[nodiscard]] bool IsInCategory(const EventCategory category) const
 		{
 			return GetCategoryFlags() & category;
 		}
@@ -72,9 +73,7 @@ namespace Rise
 		{
 			if(m_Event.GetEventType() == T::GetStaticType())
 			{
-				//m_Event.m_Handled = func(*std::bit_cast<T*>(&m_Event));
 				m_Event.m_Handled = func(*dynamic_cast<T*>(&m_Event)); // Dynamic cast since we are casting a base class to a derived class at runtime.
-				//m_Event.m_Handled = func(*(T*)(&m_Event));
 				return true;
 			}
 			return false;

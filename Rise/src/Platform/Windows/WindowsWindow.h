@@ -14,7 +14,7 @@ namespace Rise
 		void OnUpdate() override;
 
 		[[nodiscard]] unsigned int GetWidth() const override { return m_Data.Width; }
-		[[nodiscard]] unsigned int GetHeight() const override { return m_Data.Width; }
+		[[nodiscard]] unsigned int GetHeight() const override { return m_Data.Height; }
 
 		// Window attributes
 		void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }

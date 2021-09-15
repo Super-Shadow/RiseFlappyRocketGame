@@ -5,14 +5,14 @@
 namespace Rise
 {
 
-	// TODO these are similar enough to abstract like keyevent did. make mouse event that takes an x and y and inherit or something lol!
-	class RISE_API MouseMovedEvent : public Event
+	// TODO these are similar enough to abstract like key event did. make mouse event that takes an x and y and inherit or something lol!
+	class RISE_API MouseMovedEvent final : public Event
 	{
 	public:
 		MouseMovedEvent(const float x, const float y) : m_MouseX(x), m_MouseY(y) {}
 
-		float GetX() const { return m_MouseX; }
-		float GetY() const { return m_MouseY; }
+		[[nodiscard]] float GetX() const { return m_MouseX; }
+		[[nodiscard]] float GetY() const { return m_MouseY; }
 
 		[[nodiscard]] std::string ToString() const override
 		{
@@ -27,13 +27,13 @@ namespace Rise
 		float m_MouseX, m_MouseY;
 	};
 
-	class RISE_API MouseScrolledEvent : public Event
+	class RISE_API MouseScrolledEvent final : public Event
 	{
 	public:
 		MouseScrolledEvent(const float x, const float y) : m_XOffset(x), m_YOffset(y) {}
 
-		float GetXOffset() const { return m_XOffset; }
-		float GetYOffset() const { return m_YOffset; }
+		[[nodiscard]] float GetXOffset() const { return m_XOffset; }
+		[[nodiscard]] float GetYOffset() const { return m_YOffset; }
 
 		[[nodiscard]] std::string ToString() const override
 		{
@@ -52,7 +52,7 @@ namespace Rise
 	class RISE_API MouseButtonEvent : public Event
 	{
 	public:
-		int GetMouseButton() const { return m_Button; }
+		[[nodiscard]] int GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
@@ -89,6 +89,5 @@ namespace Rise
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
-
 	
 }

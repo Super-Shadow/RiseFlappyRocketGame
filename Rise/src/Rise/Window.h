@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "rspch.h"
 
 #include "Rise/Core.h"
@@ -13,7 +15,7 @@ namespace Rise
 		unsigned int Width;
 		unsigned int Height;
 
-		WindowProps(const std::string& title = "Rise Engine", const unsigned int width = 1280, const unsigned int height = 720) : Title(title), Width(width), Height(height){}
+		WindowProps(std::string title = "Rise Engine", const unsigned int width = 1280, const unsigned int height = 720) : Title(std::move(title)), Width(width), Height(height){}
 	};
 
 	// Interface representing a desktop system based Window

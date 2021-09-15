@@ -7,10 +7,10 @@ namespace Rise
 	class RISE_API WindowResizeEvent : public Event
 	{
 	public:
-		WindowResizeEvent(unsigned int width, unsigned int height) : m_Width(width), m_Height(height) {}
+		WindowResizeEvent(const unsigned int width, const unsigned int height) : m_Width(width), m_Height(height) {}
 
-		unsigned int GetWidth() const { return m_Width; }
-		unsigned int GetHeight() const { return m_Height; }
+		[[nodiscard]] unsigned int GetWidth() const { return m_Width; }
+		[[nodiscard]] unsigned int GetHeight() const { return m_Height; }
 
 		[[nodiscard]] std::string ToString() const override
 		{
@@ -26,40 +26,40 @@ namespace Rise
 		unsigned int m_Width, m_Height;
 	};
 
-	class RISE_API WindowCloseEvent : public Event
+	class RISE_API WindowCloseEvent final : public Event
 	{
 	public:
-		WindowCloseEvent() {}
+		WindowCloseEvent() = default;
 
 
 		EVENT_CLASS_TYPE(WindowClose)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class RISE_API AppTickEvent : public Event
+	class RISE_API AppTickEvent final : public Event
 	{
 	public:
-		AppTickEvent() {}
+		AppTickEvent() = default;
 
 
 		EVENT_CLASS_TYPE(AppTick)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class RISE_API AppUpdateEvent : public Event
+	class RISE_API AppUpdateEvent final : public Event
 	{
 	public:
-		AppUpdateEvent() {}
+		AppUpdateEvent() = default;
 
 
 		EVENT_CLASS_TYPE(AppUpdate)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class RISE_API AppRenderEvent : public Event
+	class RISE_API AppRenderEvent final : public Event
 	{
 	public:
-		AppRenderEvent() {}
+		AppRenderEvent() = default;
 
 
 		EVENT_CLASS_TYPE(AppRender)
