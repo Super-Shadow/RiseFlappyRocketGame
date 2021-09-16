@@ -45,7 +45,7 @@ namespace Rise
 		if(!s_GLFWInitialised)
 		{
 			// TODO: glfwTerminate on system shutdown
-			[[maybe_unused]] auto success = glfwInit();
+			[[maybe_unused]] const auto success = glfwInit();
 			RS_CORE_ASSERT(success, "Could not initialise GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialised = true;
@@ -54,14 +54,14 @@ namespace Rise
 		m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
 
-		[[maybe_unused]] int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
+		[[maybe_unused]] const int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 		RS_CORE_ASSERT(status, "Failed to initialise Glad!")
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
 		// Set GLFW callbacks
-		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, const int width, const int height) // Batchest lambda baaaaaat
+		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, const int width, const int height)
 		{
 			auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
@@ -141,12 +141,12 @@ namespace Rise
 				default:
 				{
 					RS_CORE_ASSERT(action, "Unhandled glfwSetMouseButtonCallback action!")
-						break;
+					break;
 				}
 			}
 		});
 
-		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, const double xOffset, const double yOffset)
 		{
 			const auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
@@ -156,7 +156,7 @@ namespace Rise
 			data.EventCallback(event);
 		});
 
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, const double xPos, const double yPos)
 		{
 			const auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 

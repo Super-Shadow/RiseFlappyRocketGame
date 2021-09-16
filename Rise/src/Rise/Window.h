@@ -37,6 +37,8 @@ namespace Rise
 		virtual void SetVSync(bool enabled) abstract;
 		[[nodiscard]] virtual bool IsVSync() const abstract;
 
+		[[nodiscard]] virtual void* GetNativeWindow() const abstract;
+
 		static Window* Create(const WindowProps& props = WindowProps());
 	};
 }

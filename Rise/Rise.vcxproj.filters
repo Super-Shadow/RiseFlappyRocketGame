@@ -68,6 +68,10 @@
       <Filter>Rise</Filter>
     </ClInclude>
     <ClInclude Include="src\rspch.h" />
+    <ClInclude Include="src\Rise\Input.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\Rise\KeyCodes.h" />
+    <ClInclude Include="src\Rise\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
@@ -92,5 +96,6 @@
       <Filter>Rise</Filter>
     </ClCompile>
     <ClCompile Include="src\rspch.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

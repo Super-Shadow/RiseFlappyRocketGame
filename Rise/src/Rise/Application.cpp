@@ -3,6 +3,8 @@
 #include "Application.h"
 #include <glad/glad.h>
 
+#include "Input.h"
+
 namespace Rise
 {
 //#define BIND_EVENT_FN(x) [this]<typename T0>(T0&& PH1) { Application::x(std::forward<T0>(PH1)); }
@@ -35,6 +37,7 @@ namespace Rise
 			{
 				layer->OnUpdate();
 			}
+
 			m_Window->OnUpdate();
 		}
 	}
@@ -44,7 +47,7 @@ namespace Rise
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(RS_BIND_EVENT_FN(Application::OnWindowClosed));
 
-		RS_CORE_TRACE("{0}", e);
+		//RS_CORE_TRACE("{0}", e);
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
