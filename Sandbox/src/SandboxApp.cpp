@@ -5,7 +5,6 @@ class ExampleLayer : public Rise::Layer
 public:
 	ExampleLayer() : Layer("Example")
 	{
-
 	}
 
 	void OnUpdate() override

@@ -7,3 +7,6 @@
 [submodule "Rise/vendor/imgui"]
 	path = Rise/vendor/imgui
 	url = https://github.com/Super-Shadow/imgui
+[submodule "Rise/vendor/glm"]
+	path = Rise/vendor/glm
+	url = https://github.com/g-truc/glm

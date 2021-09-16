@@ -16,6 +16,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Rise/vendor/GLFW/include"
 IncludeDir["Glad"] = "Rise/vendor/Glad/include"
 IncludeDir["ImGui"] = "Rise/vendor/imgui"
+IncludeDir["glm"] = "Rise/vendor/glm"
 
 group "Dependencies"
 	include "Rise/vendor/GLFW"
@@ -38,7 +39,9 @@ project "Rise"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -47,7 +50,8 @@ project "Rise"
 		"%{prj.name}/src",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -107,7 +111,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Rise/vendor/spdlog/include",
-		"Rise/src"
+		"Rise/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links

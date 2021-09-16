@@ -3,8 +3,6 @@
 #include "Application.h"
 #include <glad/glad.h>
 
-#include "Input.h"
-
 namespace Rise
 {
 //#define BIND_EVENT_FN(x) [this]<typename T0>(T0&& PH1) { Application::x(std::forward<T0>(PH1)); }
