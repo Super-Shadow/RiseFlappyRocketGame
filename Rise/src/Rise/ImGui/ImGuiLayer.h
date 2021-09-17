@@ -16,17 +16,11 @@ namespace Rise
 
 		void OnAttach() override;
 		void OnDetach() override;
-		void OnUpdate() override;
-		void OnEvent(Event& event) override;
+		void OnImGuiRender() override;
+
+		void Begin();
+		void End();
 	private:
-		bool OnMouseButtonPressedEvent(const MouseButtonPressedEvent& e);
-		bool OnMouseButtonReleasedEvent(const MouseButtonReleasedEvent& e);
-		bool OnOnMouseMovedEvent(const MouseMovedEvent& e);
-		bool OnMouseScrolledEvent(const MouseScrolledEvent& e);
-		bool OnKeyPressedEvent(const KeyPressedEvent& e);
-		bool OnKeyReleasedEvent(const KeyReleasedEvent& e);
-		bool OnKeyTypedEvent(const KeyTypedEvent& e);
-		bool OnWindowResizedEvent(const WindowResizeEvent& e);
 
 		float m_Time = 0.0f;
 	};

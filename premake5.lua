@@ -27,8 +27,11 @@ group ""
 
 project "Rise"
 	location "Rise"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
+
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -63,41 +66,37 @@ project "Rise"
 	}
 
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "Off"
 		systemversion "latest"
 
 		defines
 		{
 			"RS_PLATFORM_WINDOWS",
 			"RS_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
-		}
-
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
+			"GLFW_INCLUDE_NONE",
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 
 	filter "configurations:Debug"
 		defines "RS_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "RS_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "RS_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -112,6 +111,7 @@ project "Sandbox"
 	{
 		"Rise/vendor/spdlog/include",
 		"Rise/src",
+		"Rise/vendor",
 		"%{IncludeDir.glm}"
 	}
 
@@ -121,8 +121,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "Off"
 		systemversion "latest"
 
 		defines
@@ -133,14 +131,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "RS_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "RS_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "RS_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

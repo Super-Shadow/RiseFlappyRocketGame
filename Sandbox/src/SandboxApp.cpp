@@ -1,5 +1,7 @@
 #include <Rise.h>
 
+#include "imgui/imgui.h"
+
 class ExampleLayer : public Rise::Layer
 {
 public:
@@ -13,6 +15,13 @@ public:
 		{
 			RS_TRACE("Tab key is pressed! (poll)");
 		}
+	}
+
+	void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World!");
+		ImGui::End();
 	}
 
 	void OnEvent(Rise::Event& event) override
@@ -36,7 +45,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Rise::ImGuiLayer());
 	}
 
 	~Sandbox() override
