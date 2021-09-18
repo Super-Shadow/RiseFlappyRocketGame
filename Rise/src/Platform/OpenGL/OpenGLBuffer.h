@@ -11,8 +11,13 @@ namespace Rise
 
 		void Bind() const override;
 		void Unbind() const override;
+
+		const BufferLayout& GetLayout() const override { return m_Layout; }
+		void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
+
 	private:
 		uint32_t m_RendererID;
+		BufferLayout m_Layout;
 	};
 
 	class OpenGLIndexBuffer final : public IndexBuffer
