@@ -5,7 +5,7 @@
 #include "Rise/Events/MouseEvent.h"
 #include "Rise/Events/KeyEvent.h"
 
-#include <glad/glad.h>
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Rise
 {
@@ -40,7 +40,9 @@ namespace Rise
 		m_Data.Width = static_cast<int>(props.Width) < 0 ? m_Data.Width : static_cast<int>(props.Width);
 		m_Data.Height = static_cast<int>(props.Height) < 0 ? m_Data.Height : static_cast<int>(props.Height);
 
+
 		RS_CORE_INFO("Creating window {0} ({1}, {2})", m_Data.Title, m_Data.Width, m_Data.Height);
+
 
 		if(!s_GLFWInitialised)
 		{
@@ -52,10 +54,9 @@ namespace Rise
 		}
 
 		m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
 
-		[[maybe_unused]] const int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
-		RS_CORE_ASSERT(status, "Failed to initialise Glad!")
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
@@ -174,7 +175,7 @@ namespace Rise
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(const bool enabled)
