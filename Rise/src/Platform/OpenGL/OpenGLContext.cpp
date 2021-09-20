@@ -14,7 +14,6 @@ namespace Rise
 
 	void OpenGLContext::Init()
 	{
-
 		glfwMakeContextCurrent(m_WindowHandle);
 
 		[[maybe_unused]] const int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
@@ -24,7 +23,6 @@ namespace Rise
 		RS_CORE_INFO("   Vendor: {0}", glGetString(GL_VENDOR));
 		RS_CORE_INFO("   Renderer: {0}", glGetString(GL_RENDERER));
 		RS_CORE_INFO("   Version: {0}", glGetString(GL_VERSION));
-
 	}
 
 	void OpenGLContext::SwapBuffers()

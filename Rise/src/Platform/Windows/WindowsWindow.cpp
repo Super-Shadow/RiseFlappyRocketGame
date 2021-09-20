@@ -40,9 +40,7 @@ namespace Rise
 		m_Data.Width = static_cast<int>(props.Width) < 0 ? m_Data.Width : static_cast<int>(props.Width);
 		m_Data.Height = static_cast<int>(props.Height) < 0 ? m_Data.Height : static_cast<int>(props.Height);
 
-
 		RS_CORE_INFO("Creating window {0} ({1}, {2})", m_Data.Title, m_Data.Width, m_Data.Height);
-
 
 		if(!s_GLFWInitialised)
 		{

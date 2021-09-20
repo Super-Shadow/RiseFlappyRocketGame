@@ -12,7 +12,7 @@ namespace Rise
 	{
 	public:
 		ImGuiLayer();
-		~ImGuiLayer();
+		~ImGuiLayer() override = default;
 
 		void OnAttach() override;
 		void OnDetach() override;

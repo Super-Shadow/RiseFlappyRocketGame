@@ -1,12 +1,10 @@
 #include "rspch.h"
-
 #include "Application.h"
-#include <glad/glad.h>
+
+#include "Renderer/Renderer.h"
 
 namespace Rise
 {
-//#define BIND_EVENT_FN(x) [this]<typename T0>(T0&& PH1) { Application::x(std::forward<T0>(PH1)); }
-
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
@@ -132,17 +130,20 @@ namespace Rise
 
 		while (m_Running)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColour({ 0.1f, 0.1f, 0.1f, 1 });
+			RenderCommand::Clear();
+
+			Renderer::BeginScene();
 
 			m_Shader2->Bind();
-			m_SquareVertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, static_cast<int>(m_SquareVertexArray->GetIndexBuffer()->GetCount()), GL_UNSIGNED_INT, nullptr); // Can pass nullptr for indices as they are tied to the same glGenBuffers(1, ...) so it just is automatically linked.
+			// Draws our square
+			Renderer::Submit(m_SquareVertexArray);
 
 			m_Shader->Bind();
 			// Draws our triangle
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, static_cast<int>(m_VertexArray->GetIndexBuffer()->GetCount()), GL_UNSIGNED_INT, nullptr); // Can pass nullptr for indices as they are tied to the same glGenBuffers(1, ...) so it just is automatically linked.
+			Renderer::Submit(m_VertexArray);
+
+			Renderer::EndScene();
 
 			for (Layer* layer : m_LayerStack)
 			{
