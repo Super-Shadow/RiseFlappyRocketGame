@@ -9,32 +9,6 @@ namespace Rise
 
 	Application* Application::s_Instance = nullptr;
 
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type)
-		{
-			case ShaderDataType::Float: 
-			case ShaderDataType::Float2:
-			case ShaderDataType::Float3:
-			case ShaderDataType::Float4:
-			case ShaderDataType::Mat3:
-			case ShaderDataType::Mat4:
-				return GL_FLOAT;
-			case ShaderDataType::Int:
-			case ShaderDataType::Int2:
-			case ShaderDataType::Int3:
-			case ShaderDataType::Int4:
-				return GL_INT;
-			case ShaderDataType::Bool:
-				return GL_BOOL;
-			default:
-			{
-				RS_CORE_ASSERT(false, "Unknown ShaderDataType!")
-				return 0;
-			}
-		}
-	}
-
 	Application::Application()
 	{
 		RS_CORE_ASSERT(!s_Instance, "Application already exists!");
@@ -46,10 +20,7 @@ namespace Rise
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		// Setup arrays and buffers
-
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
 
 		// Plot our triange on X Y Z coordinates. X is horizontal and Y is vertical and Z is depth. X is -1 to 1 and Y is -1 bottom and 1 top.
 		constexpr float vertices[3 * 7] = {
@@ -57,36 +28,41 @@ namespace Rise
 			0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 			0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
 		};
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof vertices));
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
-		{
-			const BufferLayout layout = {
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float4, "a_Colour" }
-			};
-
-			m_VertexBuffer->SetLayout(layout);
-		}
-		uint32_t index = 0;
-		const auto& layout = m_VertexBuffer->GetLayout();
-		for (const auto& element : layout)
-		{
-			// Tell openGL that the bytes just passed in are 3 vec3's
-			glEnableVertexAttribArray(index); // Enable index 0 (first param of next line) of our attrib data
-
-			// First param is the index, next two params are telling it that the bytes are 3 floats. Next param is telling it that they are not normalised.
-			// Next param is the amount of bytes between the vertices (So the space for each vertex aka 3(each point for triangle) * 4(size of a float).
-			// Last param is the offset for this specific attribute when it is applied to our vertices data thing. We want it to start at the beginning of each vec3 coordinate.
-			glVertexAttribPointer(index, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.Type), element.Normalised ? GL_TRUE : GL_FALSE, layout.GetStride(), reinterpret_cast<const void*>(element.Offset));
-
-			index++;
-		}
-
+		const BufferLayout layout = {
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Colour" }
+		};
+		vertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		constexpr uint32_t indices[3] = {0, 1, 2};
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(indices, static_cast<uint32_t>(std::size(indices))));
+		m_VertexArray->SetIndexBuffer(indexBuffer);
 
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, std::size(indices)));
+		m_SquareVertexArray.reset(VertexArray::Create());
+
+		constexpr float squareVertices[3 * 4] = {
+			-0.75f, -0.75f, 0.0f,
+			 0.75f, -0.75f, 0.0f,
+			 0.75f,	 0.75f, 0.0f,
+			-0.75f,  0.75f, 0.0f
+		};
+
+		std::shared_ptr<VertexBuffer> squareVB;
+		squareVB.reset(VertexBuffer::Create(squareVertices, static_cast<uint32_t>(sizeof squareVertices)));
+		squareVB->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" }
+		});
+		m_SquareVertexArray->AddVertexBuffer(squareVB);
+
+		constexpr uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+		std::shared_ptr<IndexBuffer> squareIB;
+		squareIB.reset(IndexBuffer::Create(squareIndices, static_cast<uint32_t>(std::size(squareIndices))));
+		m_SquareVertexArray->SetIndexBuffer(squareIB);
 
 		const std::string vertexSrc = R"(
 			#version 330 core
@@ -104,7 +80,6 @@ namespace Rise
 				gl_Position = vec4(a_Position, 1.0);
 			}
 		)";
-
 		const std::string pixelSrc = R"(
 			#version 330 core
 
@@ -120,17 +95,37 @@ namespace Rise
 				colour = v_Colour;
 			}
 		)";
-
-
 		m_Shader.reset(new Shader(vertexSrc, pixelSrc));
 
+		const std::string vertexSrc2 = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+		const std::string pixelSrc2 = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 colour;
+
+			in vec3 v_Position;
+
+			void main()
+			{
+				//colour = vec4(0.8, 0.2, 0.3, 1.0);
+				colour = vec4(0.2, 0.3, 0.8, 1.0);
+			}
+		)";
+		m_Shader2.reset(new Shader(vertexSrc2, pixelSrc2));
+
 	}
-
-
-	Application::~Application()
-	{
-	}
-
 
 	void Application::Run()
 	{
@@ -140,11 +135,14 @@ namespace Rise
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			m_Shader->Bind();
+			m_Shader2->Bind();
+			m_SquareVertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, static_cast<int>(m_SquareVertexArray->GetIndexBuffer()->GetCount()), GL_UNSIGNED_INT, nullptr); // Can pass nullptr for indices as they are tied to the same glGenBuffers(1, ...) so it just is automatically linked.
 
+			m_Shader->Bind();
 			// Draws our triangle
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr); // Can pass nullptr for indices as they are tied to the same glGenBuffers(1, ...) so it just is automatically linked.
+			m_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, static_cast<int>(m_VertexArray->GetIndexBuffer()->GetCount()), GL_UNSIGNED_INT, nullptr); // Can pass nullptr for indices as they are tied to the same glGenBuffers(1, ...) so it just is automatically linked.
 
 			for (Layer* layer : m_LayerStack)
 			{

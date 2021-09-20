@@ -5,7 +5,6 @@
 
 namespace Rise
 {
-	// TODO: Three duplicated code blocks, try and make it into a function for epicness
 	Shader::Shader(const std::string& vertexSrc, const std::string& pixelSrc)
 	{
 		// Create an empty vertex shader handle

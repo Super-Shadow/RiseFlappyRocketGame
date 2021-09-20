@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Rise.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="src\Rise\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Rise\Renderer\Renderer.h" />
     <ClInclude Include="src\Rise\Renderer\Shader.h" />
+    <ClInclude Include="src\Rise\Renderer\VertexArray.h" />
     <ClInclude Include="src\Rise\Window.h" />
     <ClInclude Include="src\rspch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -585,6 +587,7 @@
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Rise\Application.cpp" />
@@ -596,6 +599,7 @@
     <ClCompile Include="src\Rise\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Rise\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Rise\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Rise\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\rspch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

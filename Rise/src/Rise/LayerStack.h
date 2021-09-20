@@ -7,7 +7,7 @@ namespace Rise
 	class RISE_API LayerStack
 	{
 	public:
-		LayerStack();
+		LayerStack() = default;
 		~LayerStack();
 
 		void PushLayer(Layer* layer);

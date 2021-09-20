@@ -16,6 +16,4 @@ namespace Rise
 		static RendererAPI s_RendererAPI;
 
 	};
-
-
 }

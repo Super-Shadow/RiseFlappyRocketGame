@@ -5,6 +5,7 @@ namespace Rise
 	class GraphicsContext
 	{
 	public:
+		virtual ~GraphicsContext() = default;
 		virtual void Init() abstract;
 		virtual void SwapBuffers() abstract;
 	};

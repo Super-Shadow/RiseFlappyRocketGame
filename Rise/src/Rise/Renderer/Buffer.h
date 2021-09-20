@@ -1,5 +1,3 @@
-#include <utility>
-
 #pragma once
 
 namespace Rise
@@ -62,7 +60,7 @@ namespace Rise
 		uint32_t Size;
 		bool Normalised;
 
-		BufferElement() {}
+		BufferElement() = default;
 
 		BufferElement(const ShaderDataType type, std::string name, const bool normalised = false) : Name(std::move(name)), Type(type), Offset(0), Size(ShaderDataTypeSize(type)), Normalised(normalised) {}
 
@@ -106,7 +104,7 @@ namespace Rise
 	{
 	public:
 
-		BufferLayout() {}
+		BufferLayout() = default;
 
 		BufferLayout(const std::initializer_list<BufferElement>& elements) : m_Elements(elements)
 		{
@@ -116,11 +114,11 @@ namespace Rise
 		[[nodiscard]] uint32_t GetStride() const { return m_Stride; }
 		[[nodiscard]] const std::vector<BufferElement>& GetElements() const { return m_Elements; }
 
-		std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
-		std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
+		[[nodiscard]] std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
+		[[nodiscard]] std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
 
-		std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
-		std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
+		[[nodiscard]] std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
+		[[nodiscard]] std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
 
 	private:
 		void CalculateOffsetsAndStride()
@@ -141,7 +139,7 @@ namespace Rise
 	class VertexBuffer
 	{
 	public:
-		virtual ~VertexBuffer() {}
+		virtual ~VertexBuffer() = default;
 
 		virtual void Bind() const abstract;
 		virtual void Unbind() const abstract;
@@ -155,7 +153,7 @@ namespace Rise
 	class IndexBuffer
 	{
 	public:
-		virtual ~IndexBuffer() {}
+		virtual ~IndexBuffer() = default;
 
 		virtual void Bind() const abstract;
 		virtual void Unbind() const abstract;

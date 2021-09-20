@@ -3,14 +3,9 @@
 
 namespace Rise
 {
-
-	LayerStack::LayerStack()
-	{
-	}
-
 	LayerStack::~LayerStack()
 	{
-		for (Layer* layer : m_Layers)
+		for (const Layer* layer : m_Layers)
 			delete layer;
 	}
 
