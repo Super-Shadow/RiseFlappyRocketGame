@@ -14,7 +14,7 @@ namespace Rise
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate(Timestep timestep) {}
+		virtual void OnUpdate(const Timestep timestep) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

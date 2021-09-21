@@ -1,11 +1,12 @@
 #include <Rise.h>
 
+#include "glm/gtc/matrix_transform.hpp"
 #include "imgui/imgui.h"
 
 class ExampleLayer final : public Rise::Layer
 {
 public:
-	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f, 0.0f, 0.0f)
+	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
 	{
 		m_VertexArray.reset(Rise::VertexArray::Create());
 
@@ -33,10 +34,10 @@ public:
 		m_SquareVertexArray.reset(Rise::VertexArray::Create());
 
 		constexpr float squareVertices[3 * 4] = {
-			-0.75f, -0.75f, 0.0f,
-			 0.75f, -0.75f, 0.0f,
-			 0.75f,	 0.75f, 0.0f,
-			-0.75f,  0.75f, 0.0f
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.5f,	0.5f, 0.0f,
+			-0.5f,  0.5f, 0.0f
 		};
 
 		std::shared_ptr<Rise::VertexBuffer> squareVB;
@@ -58,6 +59,7 @@ public:
 			layout(location = 1) in vec4 a_Colour;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Colour;
@@ -66,7 +68,7 @@ public:
 			{
 				v_Position = a_Position;
 				v_Colour = a_Colour;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 		const std::string pixelSrc = R"(
@@ -92,13 +94,14 @@ public:
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 		const std::string pixelSrc2 = R"(
@@ -117,25 +120,25 @@ public:
 		m_Shader2.reset(new Rise::Shader(vertexSrc2, pixelSrc2));
 	}
 
-	void OnUpdate(Rise::Timestep timestep) override
+	void OnUpdate(const Rise::Timestep timestep) override
 	{
 		RS_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
 
 		if (Rise::Input::IsKeyPressed(RS_KEY_W))
 		{
-			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
+			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_S))
 		{
-			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
+			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_A))
 		{
-			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
+			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_D))
 		{
-			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
+			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_Q))
 		{
@@ -145,6 +148,7 @@ public:
 		{
 			m_CameraRotation -= m_CameraRotationSpeed * timestep;
 		}
+
 		if (Rise::Input::IsKeyPressed(RS_KEY_R))
 		{
 			m_Camera.SetPosition({ 0, 0, 0 });
@@ -159,10 +163,18 @@ public:
 
 		Rise::Renderer::BeginScene(m_Camera);
 
-		m_Shader2->Bind();
-		// Draws our square
-		Rise::Renderer::Submit(m_Shader2, m_SquareVertexArray);
-		m_Shader->Bind();
+		const glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		for (int y = 0; y < 20; ++y)
+		{
+			for (int x = 0; x < 20; ++x)
+			{
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+				const glm::mat4 transform = translate(glm::mat4(1.0f), pos) * scale;
+				// Draws our square
+				Rise::Renderer::Submit(m_Shader2, m_SquareVertexArray, transform);
+			}
+		}
 		// Draws our triangle
 		Rise::Renderer::Submit(m_Shader, m_VertexArray);
 
@@ -184,6 +196,7 @@ private:
 
 	std::shared_ptr<Rise::VertexArray> m_SquareVertexArray;
 	std::shared_ptr<Rise::Shader> m_Shader2;
+
 	Rise::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
 	float m_CameraMoveSpeed = 2.0f;
