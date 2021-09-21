@@ -117,31 +117,33 @@ public:
 		m_Shader2.reset(new Rise::Shader(vertexSrc2, pixelSrc2));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Rise::Timestep timestep) override
 	{
+		RS_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
+
 		if (Rise::Input::IsKeyPressed(RS_KEY_W))
 		{
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_S))
 		{
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_A))
 		{
-			m_CameraPosition.x += m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_D))
 		{
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_Q))
 		{
-			m_CameraRotation += m_CameraRotationSpeed;
+			m_CameraRotation += m_CameraRotationSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_E))
 		{
-			m_CameraRotation -= m_CameraRotationSpeed;
+			m_CameraRotation -= m_CameraRotationSpeed * timestep;
 		}
 		if (Rise::Input::IsKeyPressed(RS_KEY_R))
 		{
@@ -184,9 +186,9 @@ private:
 	std::shared_ptr<Rise::Shader> m_Shader2;
 	Rise::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 0.01f;
+	float m_CameraMoveSpeed = 2.0f;
 	float m_CameraRotation= 0.0f;
-	float m_CameraRotationSpeed = 1.0f;
+	float m_CameraRotationSpeed = 100.0f;
 };
 
 class Sandbox final : public Rise::Application

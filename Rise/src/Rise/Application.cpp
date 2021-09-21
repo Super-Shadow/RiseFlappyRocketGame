@@ -1,6 +1,8 @@
 #include "rspch.h"
 #include "Application.h"
 
+#include "Core/Timestep.h"
+#include "GLFW/glfw3.h"
 #include "Renderer/Renderer.h"
 
 namespace Rise
@@ -21,12 +23,15 @@ namespace Rise
 
 	void Application::Run()
 	{
-
 		while (m_Running)
 		{
+			const auto time = static_cast<float>(glfwGetTime()); // TODO: Platform::GetTime
+			const Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
 			for (Layer* layer : m_LayerStack)
 			{
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 			}
 
 			m_ImGuiLayer->Begin();
@@ -44,8 +49,6 @@ namespace Rise
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(RS_BIND_EVENT_FN(Application::OnWindowClosed));
-
-		//RS_CORE_TRACE("{0}", e);
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{

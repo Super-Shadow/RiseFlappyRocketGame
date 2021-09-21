@@ -6,6 +6,8 @@
 #include "Rise/Layer.h"
 #include "Rise/Log.h"
 
+#include "Rise/Core/Timestep.h"
+
 #include "Rise/Input.h"
 #include "Rise/KeyCodes.h"
 #include "Rise/MouseButtonCodes.h"

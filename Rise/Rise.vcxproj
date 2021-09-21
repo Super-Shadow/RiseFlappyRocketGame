@@ -149,6 +149,7 @@
     <ClInclude Include="src\Rise.h" />
     <ClInclude Include="src\Rise\Application.h" />
     <ClInclude Include="src\Rise\Core.h" />
+    <ClInclude Include="src\Rise\Core\Timestep.h" />
     <ClInclude Include="src\Rise\EntryPoint.h" />
     <ClInclude Include="src\Rise\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Rise\Events\Event.h" />
