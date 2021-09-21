@@ -3,6 +3,8 @@
 
 #include <glad/glad.h>
 
+#include "glm/gtc/type_ptr.hpp"
+
 namespace Rise
 {
 	Shader::Shader(const std::string& vertexSrc, const std::string& pixelSrc)
@@ -126,5 +128,15 @@ namespace Rise
 		// Use the infoLog as you see fit.
 		RS_CORE_ERROR("{0}", infoLog.data());
 		RS_CORE_ASSERT(false, assertMessage)
+	}
+
+	void Shader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const
+	{
+		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
+
+		RS_CORE_ASSERT(location > -1, "Shader unable to locate uniform location named " + name + ".")
+
+		// count means how many matrices are we giving, so we put 1. If we used DirectX maths (column-major order) we would need to say GL_TRUE for auto transpose to OpenGL maths (row-major order).
+		glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix)); // f means float and v means an array as it is 16 floats
 	}
 }

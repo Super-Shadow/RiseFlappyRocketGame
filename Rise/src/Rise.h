@@ -12,6 +12,15 @@
 
 #include "Rise/ImGui/ImGuiLayer.h"
 
+// Renderer
+#include "Rise/Renderer/Renderer.h"
+#include "Rise/Renderer/RenderCommand.h"
+
+#include "Rise/Renderer/Buffer.h"
+#include "Rise/Renderer/Shader.h"
+#include "Rise/Renderer/VertexArray.h"
+
+#include "Rise/Renderer/OrthographicCamera.h"
 
 // --Entry Point-------------
 #include "Rise/EntryPoint.h"

@@ -1,19 +1,14 @@
 #pragma once
 
-#include "Core.h"
-
 #include "Layer.h"
 #include "LayerStack.h"
 #include "Window.h"
 #include "Events/ApplicationEvent.h"
 #include "ImGui/ImGuiLayer.h"
-#include "Renderer/Buffer.h"
-#include "Renderer/Shader.h"
-#include "Renderer/VertexArray.h"
 
 namespace Rise
 {
-	class RISE_API Application
+	class Application
 	{
 	public:
 		Application();
@@ -36,13 +31,6 @@ namespace Rise
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<VertexArray> m_SquareVertexArray;
-		std::shared_ptr<Shader> m_Shader2;
-
 
 		static Application* s_Instance;
 	};
