@@ -11,13 +11,13 @@ namespace Rise
 		switch (Renderer::GetAPI()) 
 		{
 			case RendererAPI::API::None:
-				RS_CORE_ASSERT(false, "RendererAPI::None is currently not supported!")
+				RS_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 				return nullptr;
 			case RendererAPI::API::OpenGL:
 				return new OpenGLVertexBuffer(vertices, size);
 		}
 
-		RS_CORE_ASSERT(false, "Unknown RendererAPI!")
+		RS_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
 
@@ -27,14 +27,14 @@ namespace Rise
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None:
-				RS_CORE_ASSERT(false, "RendererAPI::None is currently not supported!")
-					return nullptr;
+				RS_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+				return nullptr;
 			case RendererAPI::API::OpenGL:
 				return new OpenGLIndexBuffer(indices, count);
 		}
 
-		RS_CORE_ASSERT(false, "Unknown RendererAPI!")
-			return nullptr;
+		RS_CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
 		
 	}
 }

@@ -11,11 +11,11 @@ namespace Rise
 		virtual void Bind() const abstract;
 		virtual void Unbind() const abstract;
 
-		virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) abstract;
-		virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) abstract;
+		virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) abstract;
+		virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) abstract;
 
-		[[nodiscard]] virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const abstract;
-		[[nodiscard]] virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const abstract;
+		[[nodiscard]] virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const abstract;
+		[[nodiscard]] virtual const Ref<IndexBuffer>& GetIndexBuffer() const abstract;
 
 		static VertexArray* Create();
 	};

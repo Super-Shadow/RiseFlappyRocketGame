@@ -46,7 +46,7 @@ namespace Rise
 				return 1;
 			default:
 			{
-				RS_CORE_ASSERT(false, "Unknown ShaderDataType!")
+				RS_CORE_ASSERT(false, "Unknown ShaderDataType!");
 				return 0;
 			}
 		}
@@ -92,8 +92,8 @@ namespace Rise
 					return 1;
 				default:
 				{
-					RS_CORE_ASSERT(false, "Unknown ShaderDataType!")
-						return 0;
+					RS_CORE_ASSERT(false, "Unknown ShaderDataType!");
+					return 0;
 				}
 			}
 		}

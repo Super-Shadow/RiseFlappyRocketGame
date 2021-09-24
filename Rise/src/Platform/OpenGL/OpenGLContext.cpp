@@ -8,7 +8,7 @@ namespace Rise
 {
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle) : m_WindowHandle(windowHandle)
 	{
-		RS_CORE_ASSERT(windowHandle, "Window handle is null!")
+		RS_CORE_ASSERT(windowHandle, "Window handle is null!");
 
 	}
 
@@ -17,7 +17,7 @@ namespace Rise
 		glfwMakeContextCurrent(m_WindowHandle);
 
 		[[maybe_unused]] const int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
-		RS_CORE_ASSERT(status, "Failed to initialise Glad!")
+		RS_CORE_ASSERT(status, "Failed to initialise Glad!");
 
 		RS_CORE_INFO("OpenGL Info:");
 		RS_CORE_INFO("   Vendor: {0}", glGetString(GL_VENDOR));

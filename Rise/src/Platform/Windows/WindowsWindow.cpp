@@ -105,7 +105,7 @@ namespace Rise
 				}
 				default:
 				{
-					RS_CORE_ASSERT(action, "Unhandled glfwSetKeyCallback action!")
+					RS_CORE_ASSERT(action, "Unhandled glfwSetKeyCallback action!");
 					break;
 				}
 			}
@@ -139,7 +139,7 @@ namespace Rise
 				}
 				default:
 				{
-					RS_CORE_ASSERT(action, "Unhandled glfwSetMouseButtonCallback action!")
+					RS_CORE_ASSERT(action, "Unhandled glfwSetMouseButtonCallback action!");
 					break;
 				}
 			}

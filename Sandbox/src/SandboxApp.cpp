@@ -1,7 +1,9 @@
 #include <Rise.h>
 
 #include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 #include "imgui/imgui.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 class ExampleLayer final : public Rise::Layer
 {
@@ -16,7 +18,7 @@ public:
 			0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 			0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
 		};
-		std::shared_ptr<Rise::VertexBuffer> vertexBuffer;
+		Rise::Ref<Rise::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Rise::VertexBuffer::Create(vertices, sizeof vertices));
 
 		const Rise::BufferLayout layout = {
@@ -27,7 +29,7 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		constexpr uint32_t indices[3] = { 0, 1, 2 };
-		std::shared_ptr<Rise::IndexBuffer> indexBuffer;
+		Rise::Ref<Rise::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Rise::IndexBuffer::Create(indices, static_cast<uint32_t>(std::size(indices))));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -40,7 +42,7 @@ public:
 			-0.5f,  0.5f, 0.0f
 		};
 
-		std::shared_ptr<Rise::VertexBuffer> squareVB;
+		Rise::Ref<Rise::VertexBuffer> squareVB;
 		squareVB.reset(Rise::VertexBuffer::Create(squareVertices, static_cast<uint32_t>(sizeof squareVertices)));
 		squareVB->SetLayout({
 			{Rise::ShaderDataType::Float3, "a_Position" }
@@ -48,12 +50,12 @@ public:
 		m_SquareVertexArray->AddVertexBuffer(squareVB);
 
 		constexpr uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<Rise::IndexBuffer> squareIB;
+		Rise::Ref<Rise::IndexBuffer> squareIB;
 		squareIB.reset(Rise::IndexBuffer::Create(squareIndices, static_cast<uint32_t>(std::size(squareIndices))));
 		m_SquareVertexArray->SetIndexBuffer(squareIB);
 
 		const std::string vertexSrc = R"(
-			#version 330 core
+			#version 460 core
 
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Colour;
@@ -72,7 +74,7 @@ public:
 			}
 		)";
 		const std::string pixelSrc = R"(
-			#version 330 core
+			#version 460 core
 
 			layout(location = 0) out vec4 colour;
 
@@ -86,10 +88,10 @@ public:
 				colour = v_Colour;
 			}
 		)";
-		m_Shader.reset(new Rise::Shader(vertexSrc, pixelSrc));
+		m_Shader.reset(Rise::Shader::Create(vertexSrc, pixelSrc));
 
-		const std::string vertexSrc2 = R"(
-			#version 330 core
+		const std::string flatVertexSrc = R"(
+			#version 460 core
 
 			layout(location = 0) in vec3 a_Position;
 
@@ -104,20 +106,21 @@ public:
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
-		const std::string pixelSrc2 = R"(
-			#version 330 core
+		const std::string flatPixelSrc = R"(
+			#version 460 core
 
 			layout(location = 0) out vec4 colour;
 
 			in vec3 v_Position;
 
+			uniform vec3 u_Colour;
+
 			void main()
 			{
-				//colour = vec4(0.8, 0.2, 0.3, 1.0);
-				colour = vec4(0.2, 0.3, 0.8, 1.0);
+				colour = vec4(u_Colour, 1.0);
 			}
 		)";
-		m_Shader2.reset(new Rise::Shader(vertexSrc2, pixelSrc2));
+		m_FlatShader.reset(Rise::Shader::Create(flatVertexSrc, flatPixelSrc));
 	}
 
 	void OnUpdate(const Rise::Timestep timestep) override
@@ -152,7 +155,7 @@ public:
 		if (Rise::Input::IsKeyPressed(RS_KEY_R))
 		{
 			m_Camera.SetPosition({ 0, 0, 0 });
-			m_Camera.SetRotation(0);
+			m_Camera.SetRotation(0);\
 		}
 
 		Rise::RenderCommand::SetClearColour({ 0.1f, 0.1f, 0.1f, 1 });
@@ -165,6 +168,9 @@ public:
 
 		const glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
+		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_FlatShader)->Bind();
+		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_FlatShader)->UploadUniformFloat3("u_Colour", m_SquareColour);
+
 		for (int y = 0; y < 20; ++y)
 		{
 			for (int x = 0; x < 20; ++x)
@@ -172,7 +178,7 @@ public:
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				const glm::mat4 transform = translate(glm::mat4(1.0f), pos) * scale;
 				// Draws our square
-				Rise::Renderer::Submit(m_Shader2, m_SquareVertexArray, transform);
+				Rise::Renderer::Submit(m_FlatShader, m_SquareVertexArray, transform);
 			}
 		}
 		// Draws our triangle
@@ -183,7 +189,9 @@ public:
 
 	void OnImGuiRender() override
 	{
-
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Colour", value_ptr(m_SquareColour));
+		ImGui::End();
 	}
 
 	void OnEvent(Rise::Event& event) override
@@ -191,17 +199,20 @@ public:
 	}
 
 private:
-	std::shared_ptr<Rise::Shader> m_Shader;
-	std::shared_ptr<Rise::VertexArray> m_VertexArray;
+	Rise::Ref<Rise::Shader> m_Shader;
+	Rise::Ref<Rise::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Rise::VertexArray> m_SquareVertexArray;
-	std::shared_ptr<Rise::Shader> m_Shader2;
+	Rise::Ref<Rise::VertexArray> m_SquareVertexArray;
+	Rise::Ref<Rise::Shader> m_FlatShader;
 
 	Rise::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
 	float m_CameraMoveSpeed = 2.0f;
 	float m_CameraRotation= 0.0f;
 	float m_CameraRotationSpeed = 100.0f;
+
+	glm::vec3 m_SquareColour = { 0.2f, 0.3f, 0.8f };
+
 };
 
 class Sandbox final : public Rise::Application
