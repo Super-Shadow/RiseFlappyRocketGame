@@ -161,6 +161,8 @@ public:
 		// -------------------------------------------------------------------------------------
 
 		m_Texture = Rise::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_ChernoTexture = Rise::Texture2D::Create("assets/textures/ChernoLogo.png");
+
 		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 
@@ -227,6 +229,8 @@ public:
 
 		m_Texture->Bind();
 		Rise::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		m_ChernoTexture->Bind();
+		Rise::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		// Draws our triangle
 		//Rise::Renderer::Submit(m_Shader, m_VertexArray);
@@ -252,7 +256,7 @@ private:
 	Rise::Ref<Rise::VertexArray> m_SquareVertexArray;
 	Rise::Ref<Rise::Shader> m_FlatShader, m_TextureShader;
 
-	Rise::Ref<Rise::Texture2D> m_Texture;
+	Rise::Ref<Rise::Texture2D> m_Texture, m_ChernoTexture;
 
 	Rise::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;

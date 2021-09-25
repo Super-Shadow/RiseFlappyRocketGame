@@ -9,6 +9,7 @@ namespace Rise
 	class RendererAPI
 	{
 	public:
+		virtual void Init() abstract;
 		virtual ~RendererAPI() = default;
 
 		enum class API

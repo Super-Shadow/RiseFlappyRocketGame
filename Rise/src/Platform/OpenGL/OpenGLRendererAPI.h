@@ -6,6 +6,8 @@ namespace Rise
 	class OpenGLRendererAPI final : public RendererAPI
 	{
 	public:
+		void Init() override;
+
 		void SetClearColour(const glm::vec4& colour) override;
 		void Clear() override;
 

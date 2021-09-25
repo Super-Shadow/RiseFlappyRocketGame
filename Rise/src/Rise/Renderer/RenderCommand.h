@@ -7,6 +7,10 @@ namespace Rise
 	class RenderCommand
 	{
 	public:
+		static void Init()
+		{
+			s_RendererAPI->Init();
+		}
 		static void SetClearColour(const glm::vec4& colour) { s_RendererAPI->SetClearColour(colour); }
 		static void Clear() { s_RendererAPI->Clear(); }
 
