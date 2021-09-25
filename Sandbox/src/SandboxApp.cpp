@@ -35,17 +35,18 @@ public:
 
 		m_SquareVertexArray.reset(Rise::VertexArray::Create());
 
-		constexpr float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,	0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+		constexpr float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,	0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
 		Rise::Ref<Rise::VertexBuffer> squareVB;
 		squareVB.reset(Rise::VertexBuffer::Create(squareVertices, static_cast<uint32_t>(sizeof squareVertices)));
 		squareVB->SetLayout({
-			{Rise::ShaderDataType::Float3, "a_Position" }
+			{Rise::ShaderDataType::Float3, "a_Position" },
+			{Rise::ShaderDataType::Float2, "a_TexCoord" }
 		});
 		m_SquareVertexArray->AddVertexBuffer(squareVB);
 
@@ -89,6 +90,7 @@ public:
 			}
 		)";
 		m_Shader.reset(Rise::Shader::Create(vertexSrc, pixelSrc));
+		// -------------------------------------------------------------------------------------
 
 		const std::string flatVertexSrc = R"(
 			#version 460 core
@@ -121,6 +123,47 @@ public:
 			}
 		)";
 		m_FlatShader.reset(Rise::Shader::Create(flatVertexSrc, flatPixelSrc));
+		// -------------------------------------------------------------------------------------
+
+		const std::string textureVertexSrc = R"(
+			#version 460 core
+
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main()
+			{
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+		)";
+		const std::string texturePixelSrc = R"(
+			#version 460 core
+
+			layout(location = 0) out vec4 colour;
+
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				//colour = vec4(v_TexCoord, 0.0, 1.0);
+				colour = texture(u_Texture, v_TexCoord);
+			}
+		)";
+		m_TextureShader.reset(Rise::Shader::Create(textureVertexSrc, texturePixelSrc));
+		// -------------------------------------------------------------------------------------
+
+		m_Texture = Rise::Texture2D::Create("assets/textures/Checkerboard.png");
+		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+
 	}
 
 	void OnUpdate(const Rise::Timestep timestep) override
@@ -171,9 +214,9 @@ public:
 		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_FlatShader)->Bind();
 		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_FlatShader)->UploadUniformFloat3("u_Colour", m_SquareColour);
 
-		for (int y = 0; y < 20; ++y)
+		for (float y = 0; y < 20; ++y)
 		{
-			for (int x = 0; x < 20; ++x)
+			for (float x = 0; x < 20; ++x)
 			{
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				const glm::mat4 transform = translate(glm::mat4(1.0f), pos) * scale;
@@ -181,8 +224,12 @@ public:
 				Rise::Renderer::Submit(m_FlatShader, m_SquareVertexArray, transform);
 			}
 		}
+
+		m_Texture->Bind();
+		Rise::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
 		// Draws our triangle
-		Rise::Renderer::Submit(m_Shader, m_VertexArray);
+		//Rise::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Rise::Renderer::EndScene();
 	}
@@ -203,7 +250,9 @@ private:
 	Rise::Ref<Rise::VertexArray> m_VertexArray;
 
 	Rise::Ref<Rise::VertexArray> m_SquareVertexArray;
-	Rise::Ref<Rise::Shader> m_FlatShader;
+	Rise::Ref<Rise::Shader> m_FlatShader, m_TextureShader;
+
+	Rise::Ref<Rise::Texture2D> m_Texture;
 
 	Rise::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
@@ -223,8 +272,7 @@ public:
 		PushLayer(new ExampleLayer());
 	}
 
-	~Sandbox() override
-	= default;
+	~Sandbox() override = default;
 };
 
 Rise::Application* Rise::CreateApplication()

@@ -17,6 +17,7 @@ IncludeDir["GLFW"] = "Rise/vendor/GLFW/include"
 IncludeDir["Glad"] = "Rise/vendor/Glad/include"
 IncludeDir["ImGui"] = "Rise/vendor/imgui"
 IncludeDir["glm"] = "Rise/vendor/glm"
+IncludeDir["stb_image"] = "Rise/vendor/stb_image"
 
 group "Dependencies"
 	include "Rise/vendor/GLFW"
@@ -43,6 +44,8 @@ project "Rise"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
@@ -54,7 +57,8 @@ project "Rise"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links
