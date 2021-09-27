@@ -89,7 +89,7 @@ public:
 				colour = v_Colour;
 			}
 		)";
-		m_Shader.reset(Rise::Shader::Create(vertexSrc, pixelSrc));
+		m_Shader = Rise::Shader::Create("VertexPosColour", vertexSrc, pixelSrc);
 		// -------------------------------------------------------------------------------------
 
 		const std::string flatVertexSrc = R"(
@@ -122,17 +122,17 @@ public:
 				colour = vec4(u_Colour, 1.0);
 			}
 		)";
-		m_FlatShader.reset(Rise::Shader::Create(flatVertexSrc, flatPixelSrc));
+		m_FlatShader = Rise::Shader::Create("FlatColour", flatVertexSrc, flatPixelSrc);
 		// -------------------------------------------------------------------------------------
 
-		m_TextureShader.reset(Rise::Shader::Create("assets/shaders/Texture.glsl"));
+		const auto texture = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 		// -------------------------------------------------------------------------------------
 
 		m_Texture = Rise::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_ChernoTexture = Rise::Texture2D::Create("assets/textures/ChernoLogo.png");
 
-		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Rise::OpenGLShader>(texture)->Bind();
+		std::dynamic_pointer_cast<Rise::OpenGLShader>(texture)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(const Rise::Timestep timestep) override
@@ -194,10 +194,12 @@ public:
 			}
 		}
 
+		const auto textureShader = m_ShaderLibrary.Get("Texture");
+
 		m_Texture->Bind();
-		Rise::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Rise::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		m_ChernoTexture->Bind();
-		Rise::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Rise::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		// Draws our triangle
 		//Rise::Renderer::Submit(m_Shader, m_VertexArray);
@@ -217,11 +219,12 @@ public:
 	}
 
 private:
+	Rise::ShaderLibrary m_ShaderLibrary;
 	Rise::Ref<Rise::Shader> m_Shader;
 	Rise::Ref<Rise::VertexArray> m_VertexArray;
 
 	Rise::Ref<Rise::VertexArray> m_SquareVertexArray;
-	Rise::Ref<Rise::Shader> m_FlatShader, m_TextureShader;
+	Rise::Ref<Rise::Shader> m_FlatShader;
 
 	Rise::Ref<Rise::Texture2D> m_Texture, m_ChernoTexture;
 

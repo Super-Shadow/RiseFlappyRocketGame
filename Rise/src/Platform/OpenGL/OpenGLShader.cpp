@@ -2,6 +2,7 @@
 #include "OpenGLShader.h"
 
 #include <fstream>
+#include <utility>
 
 #include <glad/glad.h>
 #include "glm/gtc/type_ptr.hpp"
@@ -24,9 +25,16 @@ namespace Rise
 		const auto source = ReadFile(filePath);
 		const auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
+
+		// File name from file path
+		auto lastSlash = filePath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		const auto lastDot = filePath.rfind('.');
+		const auto count = lastDot == std::string::npos ? filePath.size() - lastSlash : lastDot - lastSlash;
+		m_Name = filePath.substr(lastSlash, count);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(std::string name, const std::string& vertexSrc, const std::string& fragmentSrc) : m_Name(std::move(name))
 	{
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
@@ -42,7 +50,7 @@ namespace Rise
 	std::string OpenGLShader::ReadFile(const std::string& filePath)
 	{
 		std::string result;
-		std::ifstream in(filePath, std::ios::in, std::ios::binary);
+		std::ifstream in(filePath, std::ios::in | std::ios::binary);
 		if (in)
 		{
 			in.seekg(0, std::ios::end);
@@ -88,8 +96,9 @@ namespace Rise
 		// Now time to link them together into a program.
 		// Get a program object.
 		const auto program = glCreateProgram();
-		std::vector<GLenum> glShaderIDs(shaderSources.size());
-
+		RS_CORE_ASSERT(shaderSources.size() <= 2, "Unsupported amount of shaders!")
+		std::array<GLenum, 2> glShaderIDs;
+		auto glShaderIDIndex = 0;
 		for (const auto& [first, second] : shaderSources) // Good use of structural binding!
 		{
 			const GLenum type = first;
@@ -130,7 +139,7 @@ namespace Rise
 			// Vertex and fragment shaders are successfully compiled.
 			// Attach our shaders to our program
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIDIndex++] = shader;
 		}
 
 		// Link our program
