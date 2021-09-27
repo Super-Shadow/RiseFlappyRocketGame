@@ -12,7 +12,7 @@ namespace Rise
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);
 		const auto data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-		RS_CORE_ASSERT(data, "Failed to load image from " + path + "!");
+		RS_CORE_ASSERT(data, "Failed to load image from '" + path + "'!");
 		m_Width = width;
 		m_Height = height;
 

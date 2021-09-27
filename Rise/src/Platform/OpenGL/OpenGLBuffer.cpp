@@ -33,9 +33,9 @@ namespace Rise
 	OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t* indices, const uint32_t count) : m_Count(count)
 	{
 		glCreateBuffers(1, &m_RendererID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID); // TODO: explain this better than just a link https://github.com/TheCherno/Hazel/pull/107
 		// Pass our drawing order into buffer. Static draw since it wont change at runtime.
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<long long>(count * sizeof(uint32_t)), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, static_cast<long long>(count * sizeof(uint32_t)), indices, GL_STATIC_DRAW);
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()

@@ -3,17 +3,19 @@
 
 #include <glm/glm.hpp>
 
+typedef unsigned int GLenum;
+
 namespace Rise
 {
 	class OpenGLShader final : public Shader
 	{
 	public:
-		OpenGLShader(const std::string& vertexSrc, const std::string& pixelSrc);
+		OpenGLShader(const std::string& filePath);
+		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~OpenGLShader();
 
 		void Bind() const override;
 		void Unbind() const override;
-		void HandleShaderFailure(const std::string& assertMessage, const unsigned int* vertexShader, const unsigned int* pixelShader = nullptr) const override;
 
 		void UploadUniformInt(const std::string& name, int value) const;
 
@@ -25,6 +27,9 @@ namespace Rise
 		void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) const;
 		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const;
 	private:
-		uint32_t m_RendererID;
+		std::string ReadFile(const std::string& filePath);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+		uint32_t m_RendererID{};
 	};
 }
