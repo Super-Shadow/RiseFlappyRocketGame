@@ -8,7 +8,7 @@
 class ExampleLayer final : public Rise::Layer
 {
 public:
-	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
+	ExampleLayer() : Layer("Example"), m_CameraController(1280.f / 720.f)
 	{
 		m_VertexArray.reset(Rise::VertexArray::Create());
 
@@ -139,44 +139,12 @@ public:
 	{
 		RS_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
 
-		if (Rise::Input::IsKeyPressed(RS_KEY_W))
-		{
-			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
-		}
-		if (Rise::Input::IsKeyPressed(RS_KEY_S))
-		{
-			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
-		}
-		if (Rise::Input::IsKeyPressed(RS_KEY_A))
-		{
-			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
-		}
-		if (Rise::Input::IsKeyPressed(RS_KEY_D))
-		{
-			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
-		}
-		if (Rise::Input::IsKeyPressed(RS_KEY_Q))
-		{
-			m_CameraRotation += m_CameraRotationSpeed * timestep;
-		}
-		if (Rise::Input::IsKeyPressed(RS_KEY_E))
-		{
-			m_CameraRotation -= m_CameraRotationSpeed * timestep;
-		}
-
-		if (Rise::Input::IsKeyPressed(RS_KEY_R))
-		{
-			m_Camera.SetPosition({ 0, 0, 0 });
-			m_Camera.SetRotation(0);\
-		}
+		m_CameraController.OnUpdate(timestep);
 
 		Rise::RenderCommand::SetClearColour({ 0.1f, 0.1f, 0.1f, 1 });
 		Rise::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		Rise::Renderer::BeginScene(m_Camera);
+		Rise::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		const glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -214,28 +182,25 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(Rise::Event& event) override
+	void OnEvent(Rise::Event& e) override
 	{
+		m_CameraController.OnEvent(e);
 	}
 
 private:
 	Rise::ShaderLibrary m_ShaderLibrary;
-	Rise::Ref<Rise::Shader> m_Shader;
-	Rise::Ref<Rise::VertexArray> m_VertexArray;
 
+	Rise::Ref<Rise::VertexArray> m_VertexArray;
 	Rise::Ref<Rise::VertexArray> m_SquareVertexArray;
+
+	Rise::Ref<Rise::Shader> m_Shader;
 	Rise::Ref<Rise::Shader> m_FlatShader;
 
 	Rise::Ref<Rise::Texture2D> m_Texture, m_ChernoTexture;
 
-	Rise::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 2.0f;
-	float m_CameraRotation= 0.0f;
-	float m_CameraRotationSpeed = 100.0f;
+	Rise::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_SquareColour = { 0.2f, 0.3f, 0.8f };
-
 };
 
 class Sandbox final : public Rise::Application

@@ -11,6 +11,7 @@
 #include "Rise/Input.h"
 #include "Rise/KeyCodes.h"
 #include "Rise/MouseButtonCodes.h"
+#include "Rise/OrthographicCameraController.h"
 
 #include "Rise/ImGui/ImGuiLayer.h"
 

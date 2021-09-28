@@ -8,11 +8,14 @@ namespace Rise
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
 
+		void SetProjection(float left, float right, float bottom, float top);
+
 		[[nodiscard]] const glm::vec3& GetPosition() const { return m_Position; }
 		void SetPosition(const glm::vec3& position) { m_Position = position; RecalculateViewMatrix(); }
 
 		[[nodiscard]] float GetRotation() const { return m_Rotation; }
 		void SetRotation(const float rotation) { m_Rotation = rotation; RecalculateViewMatrix(); }
+
 
 		[[nodiscard]] const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
 		[[nodiscard]] const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
