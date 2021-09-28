@@ -62,10 +62,10 @@ namespace Rise
 		// Set GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, const int width, const int height)
 		{
-			auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+			auto& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			data.Width -= width;
-			data.Height -= height;
+			data.Width = width;
+			data.Height = height;
 
 			WindowResizeEvent event(width, height);
 			data.EventCallback(event);

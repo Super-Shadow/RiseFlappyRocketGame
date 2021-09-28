@@ -32,6 +32,7 @@ namespace Rise
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		bool m_Minimized = false;
+		bool m_UpdateBuffers = false;
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;
 

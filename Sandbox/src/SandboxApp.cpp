@@ -137,7 +137,7 @@ public:
 
 	void OnUpdate(const Rise::Timestep timestep) override
 	{
-		RS_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
+		//RS_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
 
 		m_CameraController.OnUpdate(timestep);
 

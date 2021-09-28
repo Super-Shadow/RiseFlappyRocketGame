@@ -31,6 +31,12 @@ namespace Rise
 			const Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
+			if(m_UpdateBuffers) // This was in OnWindowResize, but it is called everytime it resized, whereas we only need to update buffer once user has finished resizing. This is dependant on Application::Run() being paused during resizing!
+			{
+				Renderer::OnWindowResize(m_Window->GetWidth(), m_Window->GetHeight());
+				m_UpdateBuffers = false;
+			}
+
 			if (!m_Minimized)
 			{
 				for (Layer* layer : m_LayerStack)
@@ -47,6 +53,8 @@ namespace Rise
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
+			RS_CORE_WARN("{0}, {1}", m_Window->GetWidth(), m_Window->GetHeight());
+
 		}
 	}
 
@@ -89,7 +97,7 @@ namespace Rise
 		}
 
 		m_Minimized = false;
-		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		m_UpdateBuffers = true;
 
 		return false;
 	}
