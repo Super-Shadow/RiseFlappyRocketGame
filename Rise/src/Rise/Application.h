@@ -25,11 +25,13 @@ namespace Rise
 		[[nodiscard]] Window& GetWindow() const { return *m_Window; }
 		[[nodiscard]] static Application& Get() { return *s_Instance; }
 	private:
-		bool OnWindowClosed(WindowCloseEvent& e);
+		bool OnWindowClosed(const WindowCloseEvent& e);
+		bool OnWindowResize(const WindowResizeEvent& e);
 
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
+		bool m_Minimized = false;
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;
 

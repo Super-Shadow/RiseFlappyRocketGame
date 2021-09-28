@@ -15,8 +15,11 @@ namespace Rise
 		void OnUpdate(Timestep timestep);
 		void OnEvent(Event& e);
 
-		OrthographicCamera& GetCamera() { return m_Camera; }
+		[[nodiscard]] OrthographicCamera& GetCamera() { return m_Camera; }
 		[[nodiscard]] const OrthographicCamera& GetCamera() const { return m_Camera; }
+
+		void SetZoomLevel(const float level) { m_ZoomLevel = level; }
+		[[nodiscard]] float GetZoomLevel() const { return m_ZoomLevel; }
 
 	private:
 		bool OnMouseScrolled(const MouseScrolledEvent& e);

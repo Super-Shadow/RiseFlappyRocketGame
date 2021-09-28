@@ -9,15 +9,16 @@ namespace Rise
 	class RendererAPI
 	{
 	public:
-		virtual void Init() abstract;
-		virtual ~RendererAPI() = default;
-
 		enum class API
 		{
 			None = 0,
 			OpenGL = 1
 		};
 
+		virtual void Init() abstract;
+		virtual ~RendererAPI() = default;
+
+		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) abstract;
 		virtual void SetClearColour(const glm::vec4& colour) abstract;
 		virtual void Clear() abstract;
 
