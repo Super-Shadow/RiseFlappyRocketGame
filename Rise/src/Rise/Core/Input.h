@@ -7,6 +7,8 @@ namespace Rise
 	class RISE_API Input
 	{
 	public:
+		virtual ~Input() = default;
+
 		// Delete these to make this class pure singleton
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
@@ -19,7 +21,6 @@ namespace Rise
 		static float GetMouseY() { return s_Instance->GetMouseYImpl(); }
 
 	protected:
-		~Input() = default;
 		Input() = default;
 
 		virtual bool IsKeyPressedImpl(int keyCode) abstract;
