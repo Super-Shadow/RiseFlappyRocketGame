@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rise/Core/Timestep.h"
+#include "Rise/Core/TimeStep.h"
 #include "Rise/Core/Core.h"
 #include "Rise/Events/Event.h"
 
@@ -14,9 +14,9 @@ namespace Rise
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate(const Timestep timestep) {}
+		virtual void OnUpdate(const TimeStep timeStep) {}
 		virtual void OnImGuiRender() {}
-		virtual void OnEvent(Event& event) {}
+		virtual void OnEvent(Event& e) {}
 
 		[[nodiscard]] const std::string& GetName() const { return m_DebugName; }
 	protected:

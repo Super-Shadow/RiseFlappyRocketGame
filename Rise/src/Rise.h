@@ -6,7 +6,7 @@
 #include "Rise/Core/Layer.h"
 #include "Rise/Core/Log.h"
 
-#include "Rise/Core/Timestep.h"
+#include "Rise/Core/TimeStep.h"
 
 #include "Rise/Core/Input.h"
 #include "Rise/Core/KeyCodes.h"
@@ -25,7 +25,3 @@
 #include "Rise/Renderer/VertexArray.h"
 
 #include "Rise/Renderer/OrthographicCamera.h"
-
-// --Entry Point-------------
-#include "Rise/Core/EntryPoint.h"
-// --------------------------

@@ -11,7 +11,7 @@ namespace Rise
 		
 	}
 
-	void OrthographicCameraController::OnUpdate(const Timestep timestep)
+	void OrthographicCameraController::OnUpdate(const TimeStep timestep)
 	{
 		if (Input::IsKeyPressed(RS_KEY_W))
 		{
@@ -46,8 +46,8 @@ namespace Rise
 
 		if (Input::IsKeyPressed(RS_KEY_R))
 		{
-			m_Camera.SetPosition({ 0, 0, 0 });
-			m_Camera.SetRotation(0);
+			m_CameraPosition = { 0, 0, 0 };
+			m_CameraRotation = 0;
 		}
 
 		m_Camera.SetPosition(m_CameraPosition);

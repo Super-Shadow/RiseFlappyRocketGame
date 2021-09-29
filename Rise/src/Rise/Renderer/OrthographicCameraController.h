@@ -1,5 +1,5 @@
 #pragma once
-#include "Rise/Core/Timestep.h"
+#include "Rise/Core/TimeStep.h"
 #include "Rise/Events/ApplicationEvent.h"
 #include "Rise/Events/Event.h"
 #include "Rise/Events/MouseEvent.h"
@@ -12,7 +12,7 @@ namespace Rise
 	public:
 		OrthographicCameraController(float aspectRatio, bool bRotation = false);
 
-		void OnUpdate(Timestep timestep);
+		void OnUpdate(TimeStep timestep);
 		void OnEvent(Event& e);
 
 		[[nodiscard]] OrthographicCamera& GetCamera() { return m_Camera; }

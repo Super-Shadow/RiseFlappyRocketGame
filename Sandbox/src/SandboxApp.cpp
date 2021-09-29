@@ -1,5 +1,9 @@
 #include <Rise.h>
+// --Entry Point-------------
+#include <Rise/Core/EntryPoint.h>
+// --------------------------
 
+#include "Sandbox2D.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "imgui/imgui.h"
@@ -8,9 +12,9 @@
 class ExampleLayer final : public Rise::Layer
 {
 public:
-	ExampleLayer() : Layer("Example"), m_CameraController(1280.f / 720.f)
+	ExampleLayer() : Layer("Example"), m_CameraController(1280.f / 720.f, true)
 	{
-		m_VertexArray.reset(Rise::VertexArray::Create());
+		m_VertexArray = Rise::VertexArray::Create();
 
 		// Plot our triange on X Y Z coordinates. X is horizontal and Y is vertical and Z is depth. X is -1 to 1 and Y is -1 bottom and 1 top.
 		constexpr float vertices[3 * 7] = {
@@ -18,8 +22,7 @@ public:
 			0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 			0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
 		};
-		Rise::Ref<Rise::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Rise::VertexBuffer::Create(vertices, sizeof vertices));
+		const Rise::Ref<Rise::VertexBuffer> vertexBuffer = Rise::VertexBuffer::Create(vertices, sizeof vertices);
 
 		const Rise::BufferLayout layout = {
 			{Rise::ShaderDataType::Float3, "a_Position" },
@@ -29,11 +32,10 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		constexpr uint32_t indices[3] = { 0, 1, 2 };
-		Rise::Ref<Rise::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Rise::IndexBuffer::Create(indices, static_cast<uint32_t>(std::size(indices))));
+		const Rise::Ref<Rise::IndexBuffer> indexBuffer = Rise::IndexBuffer::Create(indices, static_cast<uint32_t>(std::size(indices)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
-		m_SquareVertexArray.reset(Rise::VertexArray::Create());
+		m_SquareVertexArray = Rise::VertexArray::Create();
 
 		constexpr float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -42,8 +44,7 @@ public:
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		Rise::Ref<Rise::VertexBuffer> squareVB;
-		squareVB.reset(Rise::VertexBuffer::Create(squareVertices, static_cast<uint32_t>(sizeof squareVertices)));
+		const Rise::Ref<Rise::VertexBuffer> squareVB = Rise::VertexBuffer::Create(squareVertices, static_cast<uint32_t>(sizeof squareVertices));
 		squareVB->SetLayout({
 			{Rise::ShaderDataType::Float3, "a_Position" },
 			{Rise::ShaderDataType::Float2, "a_TexCoord" }
@@ -51,8 +52,7 @@ public:
 		m_SquareVertexArray->AddVertexBuffer(squareVB);
 
 		constexpr uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Rise::Ref<Rise::IndexBuffer> squareIB;
-		squareIB.reset(Rise::IndexBuffer::Create(squareIndices, static_cast<uint32_t>(std::size(squareIndices))));
+		const Rise::Ref<Rise::IndexBuffer> squareIB = Rise::IndexBuffer::Create(squareIndices, static_cast<uint32_t>(std::size(squareIndices)));
 		m_SquareVertexArray->SetIndexBuffer(squareIB);
 
 		const std::string vertexSrc = R"(
@@ -135,11 +135,11 @@ public:
 		std::dynamic_pointer_cast<Rise::OpenGLShader>(texture)->UploadUniformInt("u_Texture", 0);
 	}
 
-	void OnUpdate(const Rise::Timestep timestep) override
+	void OnUpdate(const Rise::TimeStep timeStep) override
 	{
-		//RS_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
+		RS_TRACE("Delta time: {0}s ({1}ms)", timeStep.GetSeconds(), timeStep.GetMilliseconds());
 
-		m_CameraController.OnUpdate(timestep);
+		m_CameraController.OnUpdate(timeStep);
 
 		Rise::RenderCommand::SetClearColour({ 0.1f, 0.1f, 0.1f, 1 });
 		Rise::RenderCommand::Clear();
@@ -208,7 +208,8 @@ class Sandbox final : public Rise::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox() override = default;

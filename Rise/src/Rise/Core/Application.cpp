@@ -1,7 +1,7 @@
 #include "rspch.h"
 #include "Application.h"
 
-#include "Rise/Core/Timestep.h"
+#include "Rise/Core/TimeStep.h"
 #include "GLFW/glfw3.h"
 #include "Rise/Renderer/Renderer.h"
 
@@ -28,7 +28,7 @@ namespace Rise
 		while (m_Running)
 		{
 			const auto time = static_cast<float>(glfwGetTime()); // TODO: Platform::GetTime
-			const Timestep timestep = time - m_LastFrameTime;
+			const TimeStep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			if(m_UpdateBuffers) // This was in OnWindowResize, but it is called everytime it resized, whereas we only need to update buffer once user has finished resizing. This is dependant on Application::Run() being paused during resizing!

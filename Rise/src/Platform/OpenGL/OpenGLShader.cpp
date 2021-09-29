@@ -74,6 +74,7 @@ namespace Rise
 		constexpr auto typeToken = "#type";
 		//const auto typeTokenLength = strlen(typeToken);
 		auto pos = source.find(typeToken, 0);
+		RS_CORE_ASSERT(pos != std::string::npos, "Shader missing #type!");
 		while (pos != std::string::npos)
 		{
 			const auto endOfLine = source.find_first_of("\r\n", pos);

@@ -17,6 +17,6 @@ namespace Rise
 		[[nodiscard]] virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const abstract;
 		[[nodiscard]] virtual const Ref<IndexBuffer>& GetIndexBuffer() const abstract;
 
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 	};
 }

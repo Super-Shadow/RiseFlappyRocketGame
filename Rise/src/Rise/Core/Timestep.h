@@ -2,10 +2,10 @@
 
 namespace Rise
 {
-	class Timestep
+	class TimeStep
 	{
 	public:
-		Timestep(const float time = 0.0f) : m_Time(time) {}
+		TimeStep(const float time = 0.0f) : m_Time(time) {}
 
 		operator float() const { return m_Time; }
 

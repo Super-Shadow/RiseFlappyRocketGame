@@ -147,7 +147,7 @@ namespace Rise
 		[[nodiscard]] virtual const BufferLayout& GetLayout() const abstract;
 		virtual void SetLayout(const BufferLayout& layout) abstract;
 
-		static VertexBuffer* Create(const float* vertices, const uint32_t size);
+		static Ref<VertexBuffer> Create(const float* vertices, const uint32_t size);
 	};
 
 	class IndexBuffer
@@ -160,7 +160,7 @@ namespace Rise
 
 		[[nodiscard]] virtual uint32_t GetCount() const abstract;
 
-		static IndexBuffer* Create(const uint32_t* indices, const uint32_t count);
+		static Ref<IndexBuffer> Create(const uint32_t* indices, const uint32_t count);
 
 	};
 }
