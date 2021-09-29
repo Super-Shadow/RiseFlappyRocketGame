@@ -3,8 +3,8 @@
 #include "Layer.h"
 #include "LayerStack.h"
 #include "Window.h"
-#include "Events/ApplicationEvent.h"
-#include "ImGui/ImGuiLayer.h"
+#include "Rise/Events/ApplicationEvent.h"
+#include "Rise/ImGui/ImGuiLayer.h"
 
 namespace Rise
 {

@@ -5,13 +5,13 @@
 
 namespace Rise
 {
-	Renderer::SceneData* Renderer::s_SceneData = new SceneData;
+	Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<SceneData>();
 	void Renderer::Init()
 	{
 		RenderCommand::Init();
 	}
 
-	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
+	void Renderer::OnWindowResize(const uint32_t width, const uint32_t height)
 	{
 		RenderCommand::SetViewport(0, 0, width, height);
 	}
@@ -20,7 +20,11 @@ namespace Rise
 	{
 		s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
-	void Renderer::EndScene() {}
+
+	void Renderer::EndScene()
+	{
+		
+	}
 
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
 	{

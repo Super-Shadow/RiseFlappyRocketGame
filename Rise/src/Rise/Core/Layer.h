@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Timestep.h"
-#include "Rise/Core.h"
+#include "Rise/Core/Timestep.h"
+#include "Rise/Core/Core.h"
 #include "Rise/Events/Event.h"
 
 namespace Rise

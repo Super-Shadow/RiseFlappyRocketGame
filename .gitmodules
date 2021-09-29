@@ -1,12 +1,17 @@
 [submodule "Rise/vendor/spdlog"]
 	path = Rise/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+	branch = v1.x
 [submodule "Rise/vendor/GLFW"]
 	path = Rise/vendor/GLFW
 	url = https://github.com/Super-Shadow/glfw
+	branch = master
 [submodule "Rise/vendor/imgui"]
 	path = Rise/vendor/imgui
 	url = https://github.com/Super-Shadow/imgui
+	branch = docking
 [submodule "Rise/vendor/glm"]
 	path = Rise/vendor/glm
 	url = https://github.com/g-truc/glm
+	branch = master
+

@@ -2,16 +2,16 @@
 
 // For use by Rise applications
 
-#include "Rise/Application.h"
-#include "Rise/Layer.h"
-#include "Rise/Log.h"
+#include "Rise/Core/Application.h"
+#include "Rise/Core/Layer.h"
+#include "Rise/Core/Log.h"
 
 #include "Rise/Core/Timestep.h"
 
-#include "Rise/Input.h"
-#include "Rise/KeyCodes.h"
-#include "Rise/MouseButtonCodes.h"
-#include "Rise/OrthographicCameraController.h"
+#include "Rise/Core/Input.h"
+#include "Rise/Core/KeyCodes.h"
+#include "Rise/Core/MouseButtonCodes.h"
+#include "Rise/Renderer/OrthographicCameraController.h"
 
 #include "Rise/ImGui/ImGuiLayer.h"
 
@@ -27,5 +27,5 @@
 #include "Rise/Renderer/OrthographicCamera.h"
 
 // --Entry Point-------------
-#include "Rise/EntryPoint.h"
+#include "Rise/Core/EntryPoint.h"
 // --------------------------

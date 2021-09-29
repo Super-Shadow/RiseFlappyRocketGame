@@ -5,7 +5,7 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
-#include "Rise/Application.h"
+#include "Rise/Core/Application.h"
 
 // TODO: Temporary includes
 #include <GLFW/glfw3.h>

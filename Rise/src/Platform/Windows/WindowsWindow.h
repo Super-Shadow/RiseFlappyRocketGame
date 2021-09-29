@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rise/Window.h"
+#include "Rise/Core/Window.h"
 #include "Rise/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
@@ -30,7 +30,7 @@ namespace Rise
 		virtual void Shutdown();
 
 		GLFWwindow* m_Window;
-		GraphicsContext* m_Context;
+		Scope<GraphicsContext> m_Context;
 
 		struct WindowData
 		{

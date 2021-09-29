@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rise/Layer.h"
+#include "Rise/Core/Layer.h"
 
 #include "Rise/Events/MouseEvent.h"
 #include "Rise/Events/ApplicationEvent.h"

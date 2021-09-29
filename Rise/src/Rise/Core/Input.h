@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rise/Core.h"
+#include "Rise/Core/Core.h"
 
 namespace Rise
 {
@@ -29,6 +29,6 @@ namespace Rise
 		virtual float GetMouseXImpl() abstract;
 		virtual float GetMouseYImpl() abstract;
 	private:
-		static Input* s_Instance;
+		static Scope<Input> s_Instance;
 	};
 }

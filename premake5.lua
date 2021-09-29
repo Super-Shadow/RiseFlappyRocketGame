@@ -79,7 +79,6 @@ project "Rise"
 
 		defines
 		{
-			"RS_PLATFORM_WINDOWS",
 			"RS_BUILD_DLL",
 			"GLFW_INCLUDE_NONE",
 			"_CRT_SECURE_NO_WARNINGS"
@@ -131,11 +130,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		systemversion "latest"
-
-		defines
-		{
-			"RS_PLATFORM_WINDOWS"
-		}
 
 	filter "configurations:Debug"
 		defines "RS_DEBUG"

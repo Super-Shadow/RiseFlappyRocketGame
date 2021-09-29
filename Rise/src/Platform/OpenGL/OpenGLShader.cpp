@@ -84,6 +84,7 @@ namespace Rise
 			RS_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specification!"); // TODO: This is useless due to exact same asset in ShaderTypeFromString
 
 			const auto nextLinePos = source.find_first_not_of("\r\n", endOfLine);
+			RS_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error");
 			pos = source.find(typeToken, nextLinePos);
 			shaderSources[ShaderTypeFromString(type)] = source.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos));
 		}

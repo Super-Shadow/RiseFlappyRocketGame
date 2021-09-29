@@ -1,8 +1,8 @@
 #include "rspch.h"
 #include "OrthographicCameraController.h"
 
-#include "Input.h"
-#include "KeyCodes.h"
+#include "Rise/Core/Input.h"
+#include "Rise/Core/KeyCodes.h"
 
 namespace Rise
 {

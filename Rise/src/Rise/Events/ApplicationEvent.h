@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rise/Core.h"
+#include "Rise/Core/Core.h"
 #include "Event.h"
 
 namespace Rise

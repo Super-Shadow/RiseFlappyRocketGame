@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rise/Input.h"
+#include "Rise/Core/Input.h"
 
 namespace Rise
 {

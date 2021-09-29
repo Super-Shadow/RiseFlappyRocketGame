@@ -1,9 +1,9 @@
 #pragma once
-#include "Core/Timestep.h"
-#include "Events/ApplicationEvent.h"
-#include "Events/Event.h"
-#include "Events/MouseEvent.h"
-#include "Renderer/OrthographicCamera.h"
+#include "Rise/Core/Timestep.h"
+#include "Rise/Events/ApplicationEvent.h"
+#include "Rise/Events/Event.h"
+#include "Rise/Events/MouseEvent.h"
+#include "Rise/Renderer/OrthographicCamera.h"
 
 namespace Rise
 {

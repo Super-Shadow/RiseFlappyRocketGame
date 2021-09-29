@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Rise/Log.h"
+#include "Rise/Core/Log.h"
 
 #ifdef RS_PLATFORM_WINDOWS
 	#include <Windows.h>

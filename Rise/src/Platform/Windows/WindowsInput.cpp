@@ -1,13 +1,13 @@
 #include "rspch.h"
 #include "WindowsInput.h"
 
-#include "Rise/Application.h"
+#include "Rise/Core/Application.h"
 
 #include <GLFW/glfw3.h>
 
 namespace Rise
 {
-	Input* Input::s_Instance = new WindowsInput();
+	Scope<Input> Input::s_Instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImpl(const int keyCode)
 	{

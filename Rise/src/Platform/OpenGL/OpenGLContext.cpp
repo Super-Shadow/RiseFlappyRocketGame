@@ -23,6 +23,15 @@ namespace Rise
 		RS_CORE_INFO("   Vendor: {0}", glGetString(GL_VENDOR));
 		RS_CORE_INFO("   Renderer: {0}", glGetString(GL_RENDERER));
 		RS_CORE_INFO("   Version: {0}", glGetString(GL_VERSION));
+
+		#ifdef RS_ENABLE_ASSERTS
+			int versionMajor;
+			int versionMinor;
+			glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
+			glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
+
+			RS_CORE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 6), "Hazel requires at least OpenGL version 4.6!");
+		#endif
 	}
 
 	void OpenGLContext::SwapBuffers()

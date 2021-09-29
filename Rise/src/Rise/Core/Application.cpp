@@ -1,9 +1,9 @@
 #include "rspch.h"
 #include "Application.h"
 
-#include "Core/Timestep.h"
+#include "Rise/Core/Timestep.h"
 #include "GLFW/glfw3.h"
-#include "Renderer/Renderer.h"
+#include "Rise/Renderer/Renderer.h"
 
 namespace Rise
 {
@@ -53,8 +53,6 @@ namespace Rise
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
-			RS_CORE_WARN("{0}, {1}", m_Window->GetWidth(), m_Window->GetHeight());
-
 		}
 	}
 
