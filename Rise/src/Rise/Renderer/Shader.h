@@ -1,4 +1,5 @@
 #pragma once
+#include <glm/glm.hpp>
 
 namespace Rise
 {
@@ -9,6 +10,12 @@ namespace Rise
 
 		virtual void Bind() const abstract;
 		virtual void Unbind() const abstract;
+
+		virtual void SetInt(const std::string& name, int value) const abstract;
+		virtual void SetFloat(const std::string& name, float value) const abstract;
+		virtual void SetFloat3(const std::string& name, const glm::vec3& value) const abstract;
+		virtual void SetFloat4(const std::string& name, const glm::vec4& value) const abstract;
+		virtual void SetMat4(const std::string& name, const glm::mat4& value) const abstract;
 
 		[[nodiscard]] virtual const std::string& GetName() const abstract;
 

@@ -4,21 +4,18 @@
 #include "Rise/Events/ApplicationEvent.h"
 #include "Rise/Events/MouseEvent.h"
 #include "Rise/Events/KeyEvent.h"
-
-#include "Platform/OpenGL/OpenGLContext.h"
-
 namespace Rise
 {
-	static auto s_GLFWInitialised = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int errorCode, const char* description)
 	{
 		RS_CORE_ERROR("GLFW Error ({0}): {1}", errorCode, description);
 	}
 
-	Window* Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -42,18 +39,18 @@ namespace Rise
 
 		RS_CORE_INFO("Creating window {0} ({1}, {2})", m_Data.Title, m_Data.Width, m_Data.Height);
 
-		if(!s_GLFWInitialised)
+		if (s_GLFWWindowCount == 0)
 		{
-			// TODO: glfwTerminate on system shutdown
+			RS_CORE_INFO("Initializing GLFW");
 			[[maybe_unused]] const auto success = glfwInit();
 			RS_CORE_ASSERT(success, "Could not initialise GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
-			s_GLFWInitialised = true;
 		}
 
 		m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		++s_GLFWWindowCount;
 
-		m_Context = CreateScope<OpenGLContext>(m_Window);
+		m_Context = GraphicsContext::Create(m_Window);
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -168,6 +165,12 @@ namespace Rise
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
+
+		if (--s_GLFWWindowCount == 0)
+		{
+			RS_CORE_INFO("Terminating GLFW");
+			glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate()

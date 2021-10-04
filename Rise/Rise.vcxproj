@@ -176,6 +176,7 @@
     <ClInclude Include="src\Rise\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\Rise\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Rise\Renderer\Renderer.h" />
+    <ClInclude Include="src\Rise\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Rise\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Rise\Renderer\Shader.h" />
     <ClInclude Include="src\Rise\Renderer\Texture.h" />
@@ -614,10 +615,12 @@
     <ClCompile Include="src\Rise\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Rise\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Rise\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Rise\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Rise\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Rise\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Rise\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Rise\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Rise\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Rise\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Rise\Renderer\Shader.cpp" />
     <ClCompile Include="src\Rise\Renderer\Texture.cpp" />

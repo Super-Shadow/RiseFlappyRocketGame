@@ -20,5 +20,15 @@ private:
 	Rise::Ref<Rise::VertexArray> m_SquareVertexArray;
 	Rise::Ref<Rise::Shader> m_FlatColourShader;
 
+	Rise::Ref<Rise::Texture2D> m_CheckerBoardTexture;
+
+	struct ProfileResult
+	{
+		const char* Name;
+		float Time;
+	};
+
+	std::vector<ProfileResult> m_ProfileResults;
+
 	glm::vec4 m_SquareColour = { 0.2f, 0.3f, 0.8f, 1.0f };
 };

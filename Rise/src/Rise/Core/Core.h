@@ -43,7 +43,6 @@
 	#error "Unknown platform!"
 #endif // End of platform detection
 
-
 // DLL support
 #ifdef RS_PLATFORM_WINDOWS
 	#if RS_DYNAMIC_LINK

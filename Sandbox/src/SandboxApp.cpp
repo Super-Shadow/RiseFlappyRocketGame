@@ -131,8 +131,8 @@ public:
 		m_Texture = Rise::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_ChernoTexture = Rise::Texture2D::Create("assets/textures/ChernoLogo.png");
 
-		std::dynamic_pointer_cast<Rise::OpenGLShader>(texture)->Bind();
-		std::dynamic_pointer_cast<Rise::OpenGLShader>(texture)->UploadUniformInt("u_Texture", 0);
+		texture->Bind();
+		texture->SetInt("u_Texture", 0);
 	}
 
 	void OnUpdate(const Rise::TimeStep timeStep) override
@@ -148,8 +148,8 @@ public:
 
 		const glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_FlatShader)->Bind();
-		std::dynamic_pointer_cast<Rise::OpenGLShader>(m_FlatShader)->UploadUniformFloat3("u_Colour", m_SquareColour);
+		m_FlatShader->Bind();
+		m_FlatShader->SetFloat3("u_Colour", m_SquareColour);
 
 		for (float y = 0; y < 20; ++y)
 		{

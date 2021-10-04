@@ -2,6 +2,8 @@
 
 // For use by Rise applications
 
+#include "Rise/Core/Core.h"
+
 #include "Rise/Core/Application.h"
 #include "Rise/Core/Layer.h"
 #include "Rise/Core/Log.h"
@@ -17,6 +19,7 @@
 
 // Renderer
 #include "Rise/Renderer/Renderer.h"
+#include "Rise/Renderer/Renderer2D.h"
 #include "Rise/Renderer/RenderCommand.h"
 
 #include "Rise/Renderer/Buffer.h"

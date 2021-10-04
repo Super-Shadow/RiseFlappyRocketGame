@@ -39,6 +39,6 @@ namespace Rise
 
 		[[nodiscard]] virtual void* GetNativeWindow() const abstract;
 
-		static Window* Create(const WindowProps& props = WindowProps());
+		static Scope<Window> Create(const WindowProps& props = WindowProps());
 	};
 }

@@ -1,6 +1,6 @@
 #pragma once
-
 #ifdef RS_PLATFORM_WINDOWS
+#include "Core.h"
 
 inline int main(int argc, char** argv)
 {

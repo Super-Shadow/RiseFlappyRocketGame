@@ -2,10 +2,6 @@
 
 #include "Rise/Core/Layer.h"
 
-#include "Rise/Events/MouseEvent.h"
-#include "Rise/Events/ApplicationEvent.h"
-#include "Rise/Events/KeyEvent.h"
-
 namespace Rise
 {
 	class RISE_API ImGuiLayer final : public Layer
@@ -16,7 +12,6 @@ namespace Rise
 
 		void OnAttach() override;
 		void OnDetach() override;
-		void OnImGuiRender() override;
 
 		void Begin();
 		void End();

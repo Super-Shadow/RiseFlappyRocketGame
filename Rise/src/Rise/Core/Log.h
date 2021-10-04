@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Core.h"
-#include "spdlog/spdlog.h"
-#include "spdlog/fmt/ostr.h"
+#include <spdlog/spdlog.h>
 
 namespace Rise
 {
@@ -10,13 +9,13 @@ namespace Rise
 	{
 	public:
 		static void Init();
-		static std::shared_ptr<spdlog::logger>& GetCoreLogger() {return s_CoreLogger;}
-		static std::shared_ptr<spdlog::logger>& GetClientLogger() {return s_ClientLogger;}
+		static Ref<spdlog::logger>& GetCoreLogger() {return s_CoreLogger;}
+		static Ref<spdlog::logger>& GetClientLogger() {return s_ClientLogger;}
 
 	private:
 
-		static std::shared_ptr<spdlog::logger> s_CoreLogger;
-		static std::shared_ptr<spdlog::logger> s_ClientLogger;
+		static Ref<spdlog::logger> s_CoreLogger;
+		static Ref<spdlog::logger> s_ClientLogger;
 	};
 
 }

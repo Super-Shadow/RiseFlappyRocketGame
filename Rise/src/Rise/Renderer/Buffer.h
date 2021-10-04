@@ -56,7 +56,7 @@ namespace Rise
 	{
 		std::string Name;
 		ShaderDataType Type;
-		uint32_t Offset;
+		size_t Offset;
 		uint32_t Size;
 		bool Normalised;
 
@@ -123,7 +123,7 @@ namespace Rise
 	private:
 		void CalculateOffsetsAndStride()
 		{
-			uint32_t offset = 0;
+			size_t offset = 0;
 			m_Stride = 0;
 			for (auto& element : m_Elements)
 			{

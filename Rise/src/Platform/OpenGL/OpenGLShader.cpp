@@ -54,10 +54,18 @@ namespace Rise
 		if (in)
 		{
 			in.seekg(0, std::ios::end);
-			result.resize(in.tellg());
-			in.seekg(0, std::ios::beg);
-			in.read(&result[0], result.size());
-			in.close();
+			const size_t size = in.tellg();
+			if (size != -1)
+			{
+				result.resize(size);
+				in.seekg(0, std::ios::beg);
+				in.read(&result[0], size);
+				in.close();
+			}
+			else
+			{
+				RS_CORE_ERROR("Could not read from file '{0}'", filePath);
+			}
 		}
 		else
 		{
@@ -195,10 +203,36 @@ namespace Rise
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::SetInt(const std::string& name, const int value) const
+	{
+		UploadUniformInt(name, value);
+	}
+
+	void OpenGLShader::SetFloat(const std::string& name, const float value) const
+	{
+		UploadUniformFloat(name, value);
+	}
+
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value) const
+	{
+		UploadUniformFloat3(name, value);
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value) const
+	{
+		UploadUniformFloat4(name, value);
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value) const
+	{
+		UploadUniformMat4(name, value);
+	}
+
 	void OpenGLShader::UploadUniformInt(const std::string& name, const int value) const
 	{
 		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
-		RS_CORE_ASSERT(location > -1, "Shader unable to locate uniform location named " + name + ".");
+		if(location < 0)
+			RS_CORE_ERROR("{0} shader unable to locate uniform int named {1}.", m_Name, name);
 
 		glUniform1i(location, value);
 	}
@@ -206,7 +240,8 @@ namespace Rise
 	void OpenGLShader::UploadUniformFloat(const std::string& name, const float value) const
 	{
 		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
-		RS_CORE_ASSERT(location > -1, "Shader unable to locate uniform location named " + name + ".");
+		if (location < 0)
+			RS_CORE_ERROR("{0} shader unable to locate uniform float named {1}.", m_Name, name);
 
 		glUniform1f(location, value);
 	}
@@ -214,7 +249,8 @@ namespace Rise
 	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& values) const
 	{
 		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
-		RS_CORE_ASSERT(location > -1, "Shader unable to locate uniform location named " + name + ".");
+		if (location < 0)
+			RS_CORE_ERROR("{0} shader unable to locate uniform vec2 named {1}.", m_Name, name);
 
 		glUniform2f(location, values.x, values.y);
 	}
@@ -222,7 +258,8 @@ namespace Rise
 	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& values) const
 	{
 		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
-		RS_CORE_ASSERT(location > -1, "Shader unable to locate uniform location named " + name + ".");
+		if (location < 0)
+			RS_CORE_ERROR("{0} shader unable to locate uniform vec3 named {1}.", m_Name, name);
 
 		glUniform3f(location, values.x, values.y, values.z);
 	}
@@ -230,7 +267,8 @@ namespace Rise
 	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& values) const
 	{
 		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
-		RS_CORE_ASSERT(location > -1, "Shader unable to locate uniform location named " + name + ".");
+		if (location < 0)
+			RS_CORE_ERROR("{0} shader unable to locate uniform vec4 named {1}.", m_Name, name);
 
 		glUniform4f(location, values.x, values.y, values.z, values.w);
 	}
@@ -238,7 +276,8 @@ namespace Rise
 	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix) const
 	{
 		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
-		RS_CORE_ASSERT(location > -1, "Shader unable to locate uniform location named " + name + ".");
+		if (location < 0)
+			RS_CORE_ERROR("{0} shader unable to locate uniform mat3 named {1}.", m_Name, name);
 
 		// count means how many matrices are we giving, so we put 1. If we used DirectX maths (column-major order) we would need to say GL_TRUE for auto transpose to OpenGL maths (row-major order).
 		glUniformMatrix3fv(location, 1, GL_FALSE, value_ptr(matrix)); // f means float and v means an array as it is 16 floats
@@ -247,7 +286,8 @@ namespace Rise
 	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const
 	{
 		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
-		RS_CORE_ASSERT(location > -1, "Shader unable to locate uniform location named " + name + ".");
+		if (location < 0)
+			RS_CORE_ERROR("{0} shader unable to locate uniform mat4 named {1}.", m_Name, name);
 
 		// count means how many matrices are we giving, so we put 1. If we used DirectX maths (column-major order) we would need to say GL_TRUE for auto transpose to OpenGL maths (row-major order).
 		glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix)); // f means float and v means an array as it is 16 floats
