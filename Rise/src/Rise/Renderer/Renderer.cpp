@@ -9,6 +9,8 @@ namespace Rise
 	Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<SceneData>();
 	void Renderer::Init()
 	{
+		RS_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}

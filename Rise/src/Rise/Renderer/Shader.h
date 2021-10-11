@@ -6,6 +6,13 @@ namespace Rise
 	class Shader
 	{
 	public:
+
+		Shader(const Shader&) = delete;
+		Shader& operator= (const Shader&) = delete;
+
+		Shader(Shader&&) = delete;
+		Shader& operator=(Shader&&) = delete;
+
 		virtual ~Shader() = default;
 
 		virtual void Bind() const abstract;
@@ -21,6 +28,9 @@ namespace Rise
 
 		static Ref<Shader> Create(const std::string& filePath);
 		static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& pixelSrc);
+
+	protected:
+		Shader() = default;
 	};
 
 	class ShaderLibrary

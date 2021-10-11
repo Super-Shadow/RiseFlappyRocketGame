@@ -11,10 +11,10 @@ namespace Rise
 	{
 		switch (s_API)
 		{
-			case RendererAPI::API::None:
+			case API::None:
 				RS_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 				return nullptr;
-			case RendererAPI::API::OpenGL:  
+			case API::OpenGL:  
 				return CreateScope<OpenGLRendererAPI>();
 		}
 

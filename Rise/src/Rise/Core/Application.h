@@ -12,14 +12,22 @@ namespace Rise
 	{
 	public:
 		Application();
+
+		Application(const Application&) = delete;
+		Application& operator=(const Application&) = delete;
+
+		Application(Application&&) = delete;
+		Application& operator=(Application&&) = delete;
+
 		virtual ~Application();
+
 
 		void Run();
 
 		void OnEvent(Event& e);
 
 		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* layer);
+		void PushOverlay(Layer* overlay);
 
 
 		[[nodiscard]] Window& GetWindow() const { return *m_Window; }

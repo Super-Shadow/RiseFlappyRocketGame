@@ -3,79 +3,59 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "imgui/imgui.h"
 
-template<typename Fn>
-class Timer // Set time when object is created, then once scope finishes this is destroyed and calls Stop()
-{
-public:
-	Timer(const char* name, Fn&& func) : m_Name(name), m_Func(func), m_Stopped(false)
-	{
-		m_StartTimepoint = std::chrono::high_resolution_clock::now();
-	}
-
-	~Timer()
-	{
-		if (!m_Stopped)
-			Stop();
-	}
-
-	void Stop()
-	{
-		const auto endTimePoint = std::chrono::high_resolution_clock::now();
-
-		const auto start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
-		const auto end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimePoint).time_since_epoch().count();
-
-		m_Stopped = true;
-
-		float duration = (end - start) * 0.001f; // Convert microseconds to milliseconds
-		m_Func({ m_Name, duration });
-		//std::cout << m_Name << ": " << duration << "ms" << std::endl;
-	}
-
-private:
-	const char* m_Name;
-	Fn m_Func;
-	std::chrono::time_point<std::chrono::steady_clock> m_StartTimepoint;
-	bool m_Stopped;
-};
-
-#define PROFILE_SCOPE(name) Timer timer##__LINE__(name, [&](ProfileResult profileResult) { m_ProfileResults.push_back(profileResult); })
-
 Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), m_CameraController(1280.f / 720.f)
 {
-
+	RS_CORE_INFO(R"(
+*****************************************************
+                                             ,---,  
+                                          ,`--.' |  
+     ,----..            .--.--.           |   :  :  
+    /   /   \          /  /    '.         '   '  ;  
+   |   :     :        |  :  /`. /         |   |  |  
+   .   |  ;. /        ;  |  |--`          '   :  ;  
+   .   ; /--`         |  :  ;_            |   |  '  
+   ;   | ;             \  \    `.         '   :  |  
+   |   : |              `----.   \        ;   |  ;  
+   .   | '___           __ \  \  |        `---'. |  
+   '   ; : .'|         /  /`--'  /         `--..`;  
+   '   | '/  :        '--'.     /         .--,_     
+   |   :    /           `--'---'          |    |`.  
+    \   \ .'                              `-- -`, ; 
+     `---`                                  '---`" 
+*****************************************************
+        Computer Science is Cool Stuff!!!
+)");
 }
 
 void Sandbox2D::OnAttach()
 {
-	m_CheckerBoardTexture = Rise::Texture2D::Create("assets/textures/Checkerboard.png");
+	RS_PROFILE_FUNCTION();
 
+	m_CheckerBoardTexture = Rise::Texture2D::Create("assets/textures/Checkerboard.png");
 }
 
 void Sandbox2D::OnDetach()
 {
-	
+	RS_PROFILE_FUNCTION();
 }
 
 void Sandbox2D::OnUpdate(const Rise::TimeStep timeStep)
 {
-	PROFILE_SCOPE("Sandbox2D::OnUpdate");
+	RS_PROFILE_FUNCTION();
 
 	// Update
-	{
-		PROFILE_SCOPE("m_CameraController.OnUpdate");
-		m_CameraController.OnUpdate(timeStep);
-	}
+	m_CameraController.OnUpdate(timeStep);
+
 	// Render
 	{
-		PROFILE_SCOPE("RenderCommand::Clear");
+		RS_PROFILE_SCOPE("RenderCommand::Clear");
 
 		Rise::RenderCommand::SetClearColour({ 0.1f, 0.1f, 0.1f, 1 });
 		Rise::RenderCommand::Clear();
 	}
 
 	{
-		PROFILE_SCOPE("Renderer2D::Scene");
+		RS_PROFILE_SCOPE("Renderer2D::Scene");
 
 		Rise::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
@@ -89,18 +69,10 @@ void Sandbox2D::OnUpdate(const Rise::TimeStep timeStep)
 
 void Sandbox2D::OnImGuiRender()
 {
+	RS_PROFILE_FUNCTION();
+
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square Colour", value_ptr(m_SquareColour));
-
-	for (const auto& result : m_ProfileResults)
-	{
-		char label[50];
-		strcpy(label, "%.3fms ");
-		strcat(label, result.Name);
-		ImGui::Text(label, result.Time);
-	}
-	m_ProfileResults.clear();
-
 	ImGui::End();
 }
 

@@ -20,6 +20,8 @@ namespace Rise
 
 	void ImGuiLayer::OnAttach()
 	{
+		RS_PROFILE_FUNCTION();
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -57,6 +59,8 @@ namespace Rise
 
 	void ImGuiLayer::OnDetach()
 	{
+		RS_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -64,6 +68,8 @@ namespace Rise
 
 	void ImGuiLayer::Begin()
 	{
+		RS_PROFILE_FUNCTION();
+
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -72,6 +78,8 @@ namespace Rise
 
 	void ImGuiLayer::End()
 	{
+		RS_PROFILE_FUNCTION();
+
 		auto& io = ImGui::GetIO();
 		const auto& app = Application::Get();
 		io.DisplaySize = ImVec2(static_cast<float>(app.GetWindow().GetWidth()), static_cast<float>(app.GetWindow().GetHeight()));

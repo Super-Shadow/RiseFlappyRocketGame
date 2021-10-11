@@ -13,6 +13,9 @@ namespace Rise
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
 
+		Input(Input&&) = delete;
+		Input& operator=(Input&&) = delete;
+
 		static bool IsKeyPressed(const int keyCode) { return s_Instance->IsKeyPressedImpl(keyCode); }
 
 		static bool IsMouseButtonPressed(const int button) { return s_Instance->IsMouseButtonPressedImpl(button); }

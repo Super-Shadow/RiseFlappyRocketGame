@@ -5,7 +5,7 @@
 
 namespace Rise
 {
-	class RISE_API WindowResizeEvent : public Event
+	class RISE_API WindowResizeEvent final : public Event
 	{
 	public:
 		WindowResizeEvent(const unsigned int width, const unsigned int height) : m_Width(width), m_Height(height) {}

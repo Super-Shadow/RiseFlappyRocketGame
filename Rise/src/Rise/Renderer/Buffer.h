@@ -60,7 +60,7 @@ namespace Rise
 		uint32_t Size;
 		bool Normalised;
 
-		BufferElement() = default;
+		//BufferElement() = default;
 
 		BufferElement(const ShaderDataType type, std::string name, const bool normalised = false) : Name(std::move(name)), Type(type), Offset(0), Size(ShaderDataTypeSize(type)), Normalised(normalised) {}
 
@@ -139,7 +139,11 @@ namespace Rise
 	class VertexBuffer
 	{
 	public:
-		virtual ~VertexBuffer() = default;
+		VertexBuffer(VertexBuffer const&) = delete;
+		VertexBuffer& operator=(VertexBuffer const&) = delete;
+
+		VertexBuffer(VertexBuffer&&) = delete;
+		VertexBuffer& operator=(VertexBuffer&&) = delete;
 
 		virtual void Bind() const abstract;
 		virtual void Unbind() const abstract;
@@ -147,20 +151,31 @@ namespace Rise
 		[[nodiscard]] virtual const BufferLayout& GetLayout() const abstract;
 		virtual void SetLayout(const BufferLayout& layout) abstract;
 
-		static Ref<VertexBuffer> Create(const float* vertices, const uint32_t size);
+		static Ref<VertexBuffer> Create(const float* vertices, uint32_t size);
+
+	protected:
+		VertexBuffer() = default;
+		virtual ~VertexBuffer() = default;
 	};
 
 	class IndexBuffer
 	{
 	public:
-		virtual ~IndexBuffer() = default;
+		IndexBuffer(IndexBuffer const&) = delete;
+		IndexBuffer& operator=(IndexBuffer const&) = delete;
+
+		IndexBuffer(IndexBuffer&&) = delete;
+		IndexBuffer& operator=(IndexBuffer&&) = delete;
 
 		virtual void Bind() const abstract;
 		virtual void Unbind() const abstract;
 
 		[[nodiscard]] virtual uint32_t GetCount() const abstract;
 
-		static Ref<IndexBuffer> Create(const uint32_t* indices, const uint32_t count);
+		static Ref<IndexBuffer> Create(const uint32_t* indices, uint32_t count);
 
+	protected:
+		IndexBuffer() = default;
+		virtual ~IndexBuffer() = default;
 	};
 }

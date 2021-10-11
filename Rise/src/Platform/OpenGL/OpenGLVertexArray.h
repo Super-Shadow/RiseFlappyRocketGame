@@ -8,6 +8,13 @@ namespace Rise
 	{
 	public:
 		OpenGLVertexArray();
+
+		OpenGLVertexArray(const OpenGLVertexArray&) = delete;
+		OpenGLVertexArray& operator=(const OpenGLVertexArray&) = delete;
+
+		OpenGLVertexArray(OpenGLVertexArray&&) = delete;
+		OpenGLVertexArray& operator=(OpenGLVertexArray&&) = delete;
+
 		~OpenGLVertexArray() override;
 
 		void Bind() const override;

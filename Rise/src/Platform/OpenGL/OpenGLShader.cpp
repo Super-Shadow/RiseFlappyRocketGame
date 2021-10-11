@@ -22,6 +22,8 @@ namespace Rise
 
 	OpenGLShader::OpenGLShader(const std::string& filePath)
 	{
+		RS_PROFILE_FUNCTION();
+
 		const auto source = ReadFile(filePath);
 		const auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -36,6 +38,8 @@ namespace Rise
 
 	OpenGLShader::OpenGLShader(std::string name, const std::string& vertexSrc, const std::string& fragmentSrc) : m_Name(std::move(name))
 	{
+		RS_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -44,17 +48,21 @@ namespace Rise
 
 	OpenGLShader::~OpenGLShader()
 	{
+		RS_PROFILE_FUNCTION();
+
 		glDeleteProgram(m_RendererID);
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filePath)
 	{
+		RS_PROFILE_FUNCTION();
+
 		std::string result;
 		std::ifstream in(filePath, std::ios::in | std::ios::binary);
 		if (in)
 		{
 			in.seekg(0, std::ios::end);
-			const size_t size = in.tellg();
+			const auto size = in.tellg();
 			if (size != -1)
 			{
 				result.resize(size);
@@ -77,6 +85,8 @@ namespace Rise
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
+		RS_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		constexpr auto typeToken = "#type";
@@ -103,6 +113,8 @@ namespace Rise
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
+		RS_PROFILE_FUNCTION();
+
 		// Now time to link them together into a program.
 		// Get a program object.
 		const auto program = glCreateProgram();
@@ -195,36 +207,50 @@ namespace Rise
 
 	void OpenGLShader::Bind() const
 	{
+		RS_PROFILE_FUNCTION();
+
 		glUseProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Unbind() const
 	{
+		RS_PROFILE_FUNCTION();
+
 		glUseProgram(0);
 	}
 
 	void OpenGLShader::SetInt(const std::string& name, const int value) const
 	{
+		RS_PROFILE_FUNCTION();
+
 		UploadUniformInt(name, value);
 	}
 
 	void OpenGLShader::SetFloat(const std::string& name, const float value) const
 	{
+		RS_PROFILE_FUNCTION();
+
 		UploadUniformFloat(name, value);
 	}
 
 	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value) const
 	{
+		RS_PROFILE_FUNCTION();
+
 		UploadUniformFloat3(name, value);
 	}
 
 	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value) const
 	{
+		RS_PROFILE_FUNCTION();
+
 		UploadUniformFloat4(name, value);
 	}
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value) const
 	{
+		RS_PROFILE_FUNCTION();
+
 		UploadUniformMat4(name, value);
 	}
 

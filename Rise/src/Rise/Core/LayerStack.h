@@ -8,6 +8,13 @@ namespace Rise
 	{
 	public:
 		LayerStack() = default;
+
+		LayerStack(const LayerStack&) = delete;
+		LayerStack& operator= (const LayerStack&) = delete;
+
+		LayerStack(LayerStack&&) = delete;
+		LayerStack& operator=(LayerStack&&) = delete;
+
 		~LayerStack();
 
 		void PushLayer(Layer* layer);

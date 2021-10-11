@@ -47,6 +47,12 @@ namespace Rise
 	class RISE_API Event
 	{
 	public:
+		Event(const Event&) = delete;
+		Event& operator= (const Event&) = delete;
+
+		Event(Event&&) = delete;
+		Event& operator=(Event&&) = delete;
+
 		virtual ~Event() = default;
 		[[nodiscard]] virtual EventType GetEventType() const abstract;
 		[[nodiscard]] virtual const char* GetName() const abstract;
@@ -57,8 +63,9 @@ namespace Rise
 		{
 			return GetCategoryFlags() & category;
 		}
-	//protected:
 		bool m_Handled = false;
+	protected:
+		Event() = default;
 	};
 
 	class EventDispatcher

@@ -12,6 +12,13 @@ namespace Rise
 	public:
 		OpenGLShader(const std::string& filePath);
 		OpenGLShader(std::string name, const std::string& vertexSrc, const std::string& fragmentSrc);
+
+		OpenGLShader(const OpenGLShader&) = delete;
+		OpenGLShader& operator=(const OpenGLShader&) = delete;
+
+		OpenGLShader(OpenGLShader&&) = delete;
+		OpenGLShader& operator=(OpenGLShader&&) = delete;
+
 		~OpenGLShader() override;
 
 		void Bind() const override;

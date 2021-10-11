@@ -15,6 +15,8 @@ namespace Rise
 
 	Scope<Window> Window::Create(const WindowProps& props)
 	{
+		RS_PROFILE_FUNCTION();
+
 		return CreateScope<WindowsWindow>(props);
 	}
 
@@ -25,11 +27,15 @@ namespace Rise
 
 	WindowsWindow::~WindowsWindow()
 	{
+		RS_PROFILE_FUNCTION();
+
 		WindowsWindow::Shutdown();
 	}
 
 	void WindowsWindow:: Init(const WindowProps& props)
 	{
+		RS_PROFILE_FUNCTION();
+
 		m_Data.Title = props.Title;
 		// TODO: this is such a non issue, this will only be an error if the requested width or height is over 9,223,372,036,854,775,807.
 		// As when we cast a number higher than that to signed int, it will overflow to a negative number.
@@ -41,15 +47,19 @@ namespace Rise
 
 		if (s_GLFWWindowCount == 0)
 		{
+			RS_PROFILE_SCOPE("glfwInit");
+
 			RS_CORE_INFO("Initializing GLFW");
 			[[maybe_unused]] const auto success = glfwInit();
 			RS_CORE_ASSERT(success, "Could not initialise GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 
-		m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		++s_GLFWWindowCount;
-
+		{
+			RS_PROFILE_SCOPE("glfwCreateWindow");
+			m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
+			++s_GLFWWindowCount;
+		}
 		m_Context = GraphicsContext::Create(m_Window);
 		m_Context->Init();
 
@@ -164,6 +174,8 @@ namespace Rise
 
 	void WindowsWindow::Shutdown()
 	{
+		RS_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
 
 		if (--s_GLFWWindowCount == 0)
@@ -175,12 +187,16 @@ namespace Rise
 
 	void WindowsWindow::OnUpdate()
 	{
+		RS_PROFILE_FUNCTION();
+
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(const bool enabled)
 	{
+		RS_PROFILE_FUNCTION();
+
 		glfwSwapInterval(enabled ? 1 : 0);
 
 		m_Data.VSync = enabled;

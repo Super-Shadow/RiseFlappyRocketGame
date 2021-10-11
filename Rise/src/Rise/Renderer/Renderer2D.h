@@ -11,6 +11,10 @@ namespace Rise
 		Renderer2D(const Renderer2D&) = delete;
 		Renderer2D& operator=(const Renderer2D&) = delete;
 
+		Renderer2D(Renderer2D&&) = delete;
+		Renderer2D& operator=(Renderer2D&&) = delete;
+		~Renderer2D() = delete;
+
 		static void Init();
 		static void Shutdown();
 

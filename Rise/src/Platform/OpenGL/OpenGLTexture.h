@@ -9,6 +9,13 @@ namespace Rise
 	public:
 		OpenGLTexture2D(uint32_t width, uint32_t height);
 		OpenGLTexture2D(const std::string& path);
+
+		OpenGLTexture2D(const OpenGLTexture2D&) = delete;
+		OpenGLTexture2D& operator=(const OpenGLTexture2D&) = delete;
+
+		OpenGLTexture2D(OpenGLTexture2D&&) = delete;
+		OpenGLTexture2D& operator=(OpenGLTexture2D&&) = delete;
+
 		~OpenGLTexture2D() override;
 
 		[[nodiscard]] uint32_t GetWidth() const override { return m_Width; }

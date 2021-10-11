@@ -11,10 +11,10 @@ namespace Rise
 
 	Application::Application()
 	{
+		RS_PROFILE_FUNCTION();
+
 		RS_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
-
-
 
 		m_Window = Window::Create();
 		m_Window->SetEventCallback(RS_BIND_EVENT_FN(Application::OnEvent));
@@ -27,13 +27,19 @@ namespace Rise
 
 	Application::~Application()
 	{
+		RS_PROFILE_FUNCTION();
+
 		Renderer::Shutdown();
 	}
 
 	void Application::Run()
 	{
+		RS_PROFILE_FUNCTION();
+
 		while (m_Running)
 		{
+			RS_PROFILE_SCOPE("RunLoop");
+
 			const auto time = static_cast<float>(glfwGetTime()); // TODO: Platform::GetTime
 			const TimeStep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
@@ -46,6 +52,7 @@ namespace Rise
 
 			if (!m_Minimized)
 			{
+				RS_PROFILE_SCOPE("LayerStack OnUpdate");
 				for (Layer* layer : m_LayerStack)
 				{
 					layer->OnUpdate(timestep);
@@ -53,9 +60,13 @@ namespace Rise
 			}
 
 			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
 			{
-				layer->OnImGuiRender();
+				RS_PROFILE_SCOPE("LayerStack OnImGuiRender");
+
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->OnImGuiRender();
+				}
 			}
 			m_ImGuiLayer->End();
 
@@ -65,6 +76,8 @@ namespace Rise
 
 	void Application::OnEvent(Event& e)
 	{
+		RS_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(RS_BIND_EVENT_FN(Application::OnWindowClosed));
 		dispatcher.Dispatch<WindowResizeEvent>(RS_BIND_EVENT_FN(Application::OnWindowResize));
@@ -79,12 +92,18 @@ namespace Rise
 
 	void Application::PushLayer(Layer* layer)
 	{
+		RS_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
-	void Application::PushOverlay(Layer* layer)
+	void Application::PushOverlay(Layer* overlay)
 	{
-		m_LayerStack.PushOverlay(layer);
+		RS_PROFILE_FUNCTION();
+
+		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 
 	bool Application::OnWindowClosed(const WindowCloseEvent& e)
@@ -95,6 +114,8 @@ namespace Rise
 
 	bool Application::OnWindowResize(const WindowResizeEvent& e)
 	{
+		RS_PROFILE_FUNCTION();
+
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{
 			m_Minimized = true;

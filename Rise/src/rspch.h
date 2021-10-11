@@ -14,6 +14,7 @@
 #include <unordered_set>
 
 #include "Rise/Core/Log.h"
+#include "Rise/Debug/Instrumentor.h"
 
 #ifdef RS_PLATFORM_WINDOWS
 	#include <Windows.h>

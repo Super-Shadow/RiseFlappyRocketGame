@@ -6,7 +6,11 @@ namespace Rise
 	class VertexArray
 	{
 	public:
-		virtual ~VertexArray() = default;
+		VertexArray(VertexArray const&) = delete;
+		VertexArray& operator=(VertexArray const&) = delete;
+
+		VertexArray(VertexArray&&) = delete;
+		VertexArray& operator=(VertexArray&&) = delete;
 
 		virtual void Bind() const abstract;
 		virtual void Unbind() const abstract;
@@ -18,5 +22,9 @@ namespace Rise
 		[[nodiscard]] virtual const Ref<IndexBuffer>& GetIndexBuffer() const abstract;
 
 		static Ref<VertexArray> Create();
+
+	protected:
+		VertexArray() = default;
+		virtual ~VertexArray() = default;
 	};
 }

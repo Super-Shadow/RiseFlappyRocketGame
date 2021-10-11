@@ -14,6 +14,8 @@ namespace Rise
 
 	void OpenGLContext::Init()
 	{
+		RS_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 
 		[[maybe_unused]] const int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
@@ -36,6 +38,8 @@ namespace Rise
 
 	void OpenGLContext::SwapBuffers()
 	{
+		RS_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 }

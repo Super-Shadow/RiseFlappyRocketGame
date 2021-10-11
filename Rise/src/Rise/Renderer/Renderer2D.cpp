@@ -19,6 +19,8 @@ namespace Rise
 
 	void Renderer2D::Init()
 	{
+		RS_PROFILE_FUNCTION();
+
 		s_Data = new Renderer2DStorage();
 
 		s_Data->QuadVertexArray = VertexArray::Create();
@@ -53,11 +55,15 @@ namespace Rise
 
 	void Renderer2D::Shutdown()
 	{
+		RS_PROFILE_FUNCTION();
+
 		delete s_Data;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
+		RS_PROFILE_FUNCTION();
+
 		//		dynamic_cast<OpenGLShader*>(s_Data->FlatColourShader.get())->Bind(); if FlatColourShader is Scope<Shader>
 
 		s_Data->TextureShader->Bind();
@@ -66,7 +72,8 @@ namespace Rise
 
 	void Renderer2D::EndScene()
 	{
-		
+		RS_PROFILE_FUNCTION();
+
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour)
@@ -76,6 +83,8 @@ namespace Rise
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& colour)
 	{
+		RS_PROFILE_FUNCTION();
+
 		s_Data->TextureShader->SetFloat4("u_Colour", colour);
 		s_Data->WhiteTexture->Bind();
 
@@ -113,6 +122,8 @@ namespace Rise
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture, const float scale, const glm::vec4& tintColour)
 	{
+		RS_PROFILE_FUNCTION();
+
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Colour", tintColour);
 		s_Data->TextureShader->SetFloat("u_TexScale", scale);
