@@ -12,7 +12,7 @@
 
 #include "Rise/Core/Input.h"
 #include "Rise/Core/KeyCodes.h"
-#include "Rise/Core/MouseButtonCodes.h"
+#include "Rise/Core/MouseCodes.h"
 #include "Rise/Renderer/OrthographicCameraController.h"
 
 #include "Rise/ImGui/ImGuiLayer.h"

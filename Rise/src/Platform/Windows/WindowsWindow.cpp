@@ -4,6 +4,8 @@
 #include "Rise/Events/ApplicationEvent.h"
 #include "Rise/Events/MouseEvent.h"
 #include "Rise/Events/KeyEvent.h"
+#include "Rise/Renderer/Renderer.h"
+
 namespace Rise
 {
 	static uint8_t s_GLFWWindowCount = 0;
@@ -13,23 +15,16 @@ namespace Rise
 		RS_CORE_ERROR("GLFW Error ({0}): {1}", errorCode, description);
 	}
 
-	Scope<Window> Window::Create(const WindowProps& props)
-	{
-		RS_PROFILE_FUNCTION();
-
-		return CreateScope<WindowsWindow>(props);
-	}
-
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		WindowsWindow::Init(props);
+		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
 		RS_PROFILE_FUNCTION();
 
-		WindowsWindow::Shutdown();
+		Shutdown();
 	}
 
 	void WindowsWindow:: Init(const WindowProps& props)
@@ -57,6 +52,11 @@ namespace Rise
 
 		{
 			RS_PROFILE_SCOPE("glfwCreateWindow");
+			// TODO: I don't like this!
+			#if defined(RS_DEBUG)
+				if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+					glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+			#endif
 			m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 			++s_GLFWWindowCount;
 		}
@@ -74,16 +74,16 @@ namespace Rise
 			data.Width = width;
 			data.Height = height;
 
-			WindowResizeEvent event(width, height);
-			data.EventCallback(event);
+			WindowResizeEvent localEvent(width, height);
+			data.EventCallback(localEvent);
 		});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 		{
 			const auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			WindowCloseEvent event;
-			data.EventCallback(event);
+			WindowCloseEvent localEvent;
+			data.EventCallback(localEvent);
 		});
 
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, const int key, int scanCode, const int action, int modes)
@@ -94,20 +94,20 @@ namespace Rise
 			{
 				case GLFW_PRESS:
 				{
-					KeyPressedEvent event(key, 0);
-					data.EventCallback(event);
+					KeyPressedEvent localEvent(static_cast<KeyCode>(key), 0);
+					data.EventCallback(localEvent);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					KeyReleasedEvent event(key);
-					data.EventCallback(event);
+					KeyReleasedEvent localEvent(static_cast<KeyCode>(key));
+					data.EventCallback(localEvent);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
-					KeyPressedEvent event(key, 1);
-					data.EventCallback(event);
+					KeyPressedEvent localEvent(static_cast<KeyCode>(key), 1);
+					data.EventCallback(localEvent);
 					break;
 				}
 				default:
@@ -122,8 +122,8 @@ namespace Rise
 		{
 			const auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			KeyTypedEvent event(static_cast<int>(keyCode));
-			data.EventCallback(event);
+			KeyTypedEvent localEvent(static_cast<KeyCode>(keyCode));
+			data.EventCallback(localEvent);
 
 		});
 
@@ -134,14 +134,14 @@ namespace Rise
 			{
 				case GLFW_PRESS:
 				{
-					MouseButtonPressedEvent event(button);
-					data.EventCallback(event);
+					MouseButtonPressedEvent localEvent(static_cast<MouseCode>(button));
+					data.EventCallback(localEvent);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					MouseButtonReleasedEvent event(button);
-					data.EventCallback(event);
+					MouseButtonReleasedEvent localEvent(static_cast<MouseCode>(button));
+					data.EventCallback(localEvent);
 					break;
 				}
 				default:
@@ -158,8 +158,8 @@ namespace Rise
 
 			// Best practice as without cast it is implicit conversion which 'might' cause bugs. This shows explicitly we are converting our double (which is higher precision) to float
 			// ReSharper disable twice CppRedundantCastExpression
-			MouseScrolledEvent event(static_cast<float>(xOffset), static_cast<float>(yOffset)); 
-			data.EventCallback(event);
+			MouseScrolledEvent localEvent(static_cast<float>(xOffset), static_cast<float>(yOffset));
+			data.EventCallback(localEvent);
 		});
 
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, const double xPos, const double yPos)
@@ -167,8 +167,8 @@ namespace Rise
 			const auto data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
 			// ReSharper disable twice CppRedundantCastExpression
-			MouseMovedEvent event(static_cast<float>(xPos), static_cast<float>(yPos));
-			data.EventCallback(event);
+			MouseMovedEvent localEvent(static_cast<float>(xPos), static_cast<float>(yPos));
+			data.EventCallback(localEvent);
 		});
 	}
 

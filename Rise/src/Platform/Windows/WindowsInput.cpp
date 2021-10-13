@@ -7,19 +7,17 @@
 
 namespace Rise
 {
-	Scope<Input> Input::s_Instance = CreateScope<WindowsInput>();
-
-	bool WindowsInput::IsKeyPressedImpl(const int keyCode)
+	bool WindowsInput::IsKeyPressedImpl(const KeyCode keyCode)
 	{
 		const auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		const auto state = glfwGetKey(window, keyCode);
+		const auto state = glfwGetKey(window, static_cast<int>(keyCode));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(const int button)
+	bool WindowsInput::IsMouseButtonPressedImpl(const MouseCode button)
 	{
 		const auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		return glfwGetMouseButton(window, button) == GLFW_PRESS;
+		return glfwGetMouseButton(window, static_cast<int>(button)) == GLFW_PRESS;
 	}
 
 	std::pair<float, float> WindowsInput::GetMousePositionImpl()

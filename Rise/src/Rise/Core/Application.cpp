@@ -1,6 +1,8 @@
 #include "rspch.h"
 #include "Application.h"
 
+#include <ranges>
+
 #include "Rise/Core/TimeStep.h"
 #include "GLFW/glfw3.h"
 #include "Rise/Renderer/Renderer.h"
@@ -82,9 +84,9 @@ namespace Rise
 		dispatcher.Dispatch<WindowCloseEvent>(RS_BIND_EVENT_FN(Application::OnWindowClosed));
 		dispatcher.Dispatch<WindowResizeEvent>(RS_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		for (const auto& it : std::ranges::reverse_view(m_LayerStack))
 		{
-			(*--it)->OnEvent(e);
+			it->OnEvent(e);
 			if (e.m_Handled)
 				break;
 		}

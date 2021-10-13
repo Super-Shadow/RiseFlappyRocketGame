@@ -5,6 +5,13 @@ class Sandbox2D final : public Rise::Layer
 {
 public:
 	Sandbox2D();
+
+	Sandbox2D(const Sandbox2D&) = delete;
+	Sandbox2D& operator=(const Sandbox2D&) = delete;
+
+	Sandbox2D(Sandbox2D&&) = delete;
+	Sandbox2D& operator=(Sandbox2D&&) = delete;
+
 	~Sandbox2D() override = default;
 
 	void OnAttach() override;

@@ -19,6 +19,9 @@
     <Filter Include="src\Rise\Core">
       <UniqueIdentifier>{A7E52EEC-13A6-AA22-DCE0-F39F4860EFFE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Rise\Debug">
+      <UniqueIdentifier>{A5F51772-91C3-0B78-7A57-7C9E66C4E7DC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Rise\Events">
       <UniqueIdentifier>{F3FCA0B8-5F88-0E7D-6899-9171D4A36A7D}</UniqueIdentifier>
     </Filter>
@@ -105,7 +108,7 @@
     <ClInclude Include="src\Rise\Core\Log.h">
       <Filter>src\Rise\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rise\Core\MouseButtonCodes.h">
+    <ClInclude Include="src\Rise\Core\MouseCodes.h">
       <Filter>src\Rise\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Rise\Core\TimeStep.h">
@@ -113,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="src\Rise\Core\Window.h">
       <Filter>src\Rise\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rise\Debug\Instrumentor.h">
+      <Filter>src\Rise\Debug</Filter>
     </ClInclude>
     <ClInclude Include="src\Rise\Events\ApplicationEvent.h">
       <Filter>src\Rise\Events</Filter>
@@ -148,6 +154,9 @@
       <Filter>src\Rise\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Rise\Renderer\Renderer.h">
+      <Filter>src\Rise\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rise\Renderer\Renderer2D.h">
       <Filter>src\Rise\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Rise\Renderer\RendererAPI.h">
@@ -1413,8 +1422,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rise\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\Rise\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1462,6 +1469,9 @@
     <ClCompile Include="src\Rise\Renderer\Buffer.cpp">
       <Filter>src\Rise\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rise\Renderer\GraphicsContext.cpp">
+      <Filter>src\Rise\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Rise\Renderer\OrthographicCamera.cpp">
       <Filter>src\Rise\Renderer</Filter>
     </ClCompile>
@@ -1472,6 +1482,9 @@
       <Filter>src\Rise\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Rise\Renderer\Renderer.cpp">
+      <Filter>src\Rise\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rise\Renderer\Renderer2D.cpp">
       <Filter>src\Rise\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Rise\Renderer\RendererAPI.cpp">
@@ -1492,7 +1505,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rise\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\Rise\Renderer\GraphicsContext.cpp" />
+    <ClCompile Include="src\Rise\Core\Input.cpp" />
+    <ClCompile Include="src\Rise\Core\Window.cpp" />
   </ItemGroup>
 </Project>

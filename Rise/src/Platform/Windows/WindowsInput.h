@@ -4,12 +4,12 @@
 
 namespace Rise
 {
-	class WindowsInput : public Input
+	class WindowsInput final : public Input
 	{
 	protected:
-		bool IsKeyPressedImpl(int keyCode) override;
+		bool IsKeyPressedImpl(KeyCode keyCode) override;
 
-		bool IsMouseButtonPressedImpl(int button) override;
+		bool IsMouseButtonPressedImpl(MouseCode button) override;
 		std::pair<float, float> GetMousePositionImpl() override;
 		float GetMouseXImpl() override;
 		float GetMouseYImpl() override;

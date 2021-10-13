@@ -135,6 +135,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ExampleLayer.h" />
+    <ClInclude Include="src\Sandbox2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ExampleLayer.cpp" />
     <ClCompile Include="src\Sandbox2D.cpp" />
     <ClCompile Include="src\SandboxApp.cpp" />
   </ItemGroup>
@@ -142,13 +147,6 @@
     <ProjectReference Include="..\Rise\Rise.vcxproj">
       <Project>{78D48B7C-640B-8D0D-0DF8-7210F90D090F}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Sandbox2D.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assets\shaders\FlatColour.glsl" />
-    <None Include="assets\shaders\Texture.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

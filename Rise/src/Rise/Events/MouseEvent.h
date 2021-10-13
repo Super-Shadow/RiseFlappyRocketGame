@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event.h"
+#include "Rise/Core/MouseCodes.h"
 
 namespace Rise
 {
@@ -52,18 +53,18 @@ namespace Rise
 	class RISE_API MouseButtonEvent : public Event
 	{
 	public:
-		[[nodiscard]] int GetMouseButton() const { return m_Button; }
+		[[nodiscard]] MouseCode GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(const int button) : m_Button(button) {}
-		int m_Button;
+		MouseButtonEvent(const MouseCode button) : m_Button(button) {}
+		MouseCode m_Button;
 	};
 
 	class RISE_API MouseButtonPressedEvent final : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(const int button) : MouseButtonEvent(button) {}
+		MouseButtonPressedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 
 		[[nodiscard]] std::string ToString() const override
 		{
@@ -78,7 +79,7 @@ namespace Rise
 	class RISE_API MouseButtonReleasedEvent final : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(const int button) : MouseButtonEvent(button) {}
+		MouseButtonReleasedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 
 		[[nodiscard]] std::string ToString() const override
 		{

@@ -161,7 +161,7 @@
     <ClInclude Include="src\Rise\Core\Layer.h" />
     <ClInclude Include="src\Rise\Core\LayerStack.h" />
     <ClInclude Include="src\Rise\Core\Log.h" />
-    <ClInclude Include="src\Rise\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\Rise\Core\MouseCodes.h" />
     <ClInclude Include="src\Rise\Core\TimeStep.h" />
     <ClInclude Include="src\Rise\Core\Window.h" />
     <ClInclude Include="src\Rise\Debug\Instrumentor.h" />
@@ -610,9 +610,11 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Rise\Core\Application.cpp" />
+    <ClCompile Include="src\Rise\Core\Input.cpp" />
     <ClCompile Include="src\Rise\Core\Layer.cpp" />
     <ClCompile Include="src\Rise\Core\LayerStack.cpp" />
     <ClCompile Include="src\Rise\Core\Log.cpp" />
+    <ClCompile Include="src\Rise\Core\Window.cpp" />
     <ClCompile Include="src\Rise\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Rise\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Rise\Renderer\Buffer.cpp" />
