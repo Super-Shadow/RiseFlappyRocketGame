@@ -118,8 +118,8 @@ namespace Rise
 		// Now time to link them together into a program.
 		// Get a program object.
 		const auto program = glCreateProgram();
-		RS_CORE_ASSERT(shaderSources.size() <= 2, "Unsupported amount of shaders!")
-		std::array<GLenum, 2> glShaderIDs;
+		RS_CORE_ASSERT(shaderSources.size() <= 2, "Unsupported amount of shaders!");
+		std::array<GLenum, 2> glShaderIDs{};
 		auto glShaderIDIndex = 0;
 		for (const auto& [first, second] : shaderSources) // Good use of structural binding!
 		{

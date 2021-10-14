@@ -76,16 +76,22 @@ project "Rise"
 
 	filter "system:windows"
 		systemversion "latest"
-
+		
 		defines
 		{
 			"RS_BUILD_DLL",
 			"GLFW_INCLUDE_NONE",
 			"_CRT_SECURE_NO_WARNINGS"
 		}
+		filter "toolset:msc"
+			disablewarnings "4481"
+
 
 	filter "configurations:Debug"
 		defines "RS_DEBUG"
+		warnings "Extra"
+		filter "toolset:msc*"
+			disablewarnings "4481"
 		runtime "Debug"
 		symbols "on"
 
@@ -133,6 +139,9 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "RS_DEBUG"
+		warnings "Extra"
+		filter "toolset:msc*"
+			disablewarnings "4481"
 		runtime "Debug"
 		symbols "on"
 
