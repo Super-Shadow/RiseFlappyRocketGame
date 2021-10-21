@@ -24,12 +24,18 @@ namespace Rise
 		// Primitives
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour);
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& colour);
+		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& colour);
+		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& colour);
+
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture);
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture);
-		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture, float scale);
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture, float scale);
-		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture, float scale, const glm::vec4& tintColour);
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture, float scale, const glm::vec4& tintColour);
+		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture>& texture);
+		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture>& texture);
+
+		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture, float texScale, const glm::vec4& tintColour = {1.f, 1.f, 1.f, 1.f});
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture, float texScale, const glm::vec4& tintColour = { 1.f, 1.f, 1.f, 1.f });
+		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture>& texture, float texScale, const glm::vec4& tintColour = { 1.f, 1.f, 1.f, 1.f });
+		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture>& texture, float texScale, const glm::vec4& tintColour = { 1.f, 1.f, 1.f, 1.f });
 
 	};
 }

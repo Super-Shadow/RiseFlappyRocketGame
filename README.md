@@ -1,4 +1,8 @@
-# Rise
+# Rise 1 Hour Game
+
+This is a quick little game made in a couple of hours to test out the current state of [Rise](https://github.com/Super-Shadow/Rise).<br/>Check out the video here: https://youtu.be/qITIvVV6BHk
+
+## Notes
 ![Rise](/Resources/Branding/Rise_Logo_Text_Light_Square.png?raw=true "Rise")
 
 Rise is primarily an early-stage interactive application and rendering engine for Windows. Currently not much is implemented, however (almost) everything inside this repository is being created within YouTube videos, found at [thecherno.com/engine](https://thecherno.com/engine). 

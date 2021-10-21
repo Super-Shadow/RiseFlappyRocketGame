@@ -51,6 +51,7 @@ namespace Rise
 		s_Data->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetInt("u_Texture", 0);
+		//s_Data->TextureShader->SetInt("u_Bayer8", 1);
 	}
 
 	void Renderer2D::Shutdown()
@@ -95,6 +96,25 @@ namespace Rise
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 
+	void Renderer2D::DrawQuad(const glm::vec2& position, const float rotation, const glm::vec2& size, const glm::vec4& colour)
+	{
+		DrawQuad({ position.x, position.y, 0.f }, rotation, size, colour);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation, const glm::vec2& size, const glm::vec4& colour)
+	{
+		RS_PROFILE_FUNCTION();
+
+		s_Data->TextureShader->SetFloat4("u_Colour", colour);
+		s_Data->WhiteTexture->Bind();
+
+		const auto transform = glm::translate(glm::mat4(1.f), position) * glm::rotate(glm::mat4(1.f), rotation, { 0.f, 0.f, 1.f }) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+		s_Data->TextureShader->SetMat4("u_Transform", transform);
+
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture)
 	{
 		DrawQuad({ position.x, position.y, 0.f }, size, texture);
@@ -104,34 +124,49 @@ namespace Rise
 	{
 		DrawQuad({ position.x, position.y, position.z }, size, texture, 1.f);
 	}
-	
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture, const float scale)
+
+	void Renderer2D::DrawQuad(const glm::vec2& position, const float rotation, const glm::vec2& size, const Ref<Texture>& texture)
 	{
-		DrawQuad({ position.x, position.y, 0.f }, size, texture, scale);
+		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture, const float scale)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation, const glm::vec2& size, const Ref<Texture>& texture)
 	{
-		DrawQuad({ position.x, position.y, position.z }, size, texture, scale, glm::vec4(1.f));
+		DrawQuad({ position.x, position.y, position.z }, rotation, size, texture, 1.f);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture, const float scale, const glm::vec4& tintColour)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture, const float texScale, const glm::vec4& tintColour)
 	{
-		DrawQuad({ position.x, position.y, 0.f }, size, texture, scale, tintColour);
+		DrawQuad({ position.x, position.y, 0.f }, size, texture, texScale, tintColour);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture, const float scale, const glm::vec4& tintColour)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture, const float texScale, const glm::vec4& tintColour)
+	{
+		DrawQuad({ position.x, position.y, position.z }, 0.f, size, texture, texScale, tintColour);
+	}
+
+
+	void Renderer2D::DrawQuad(const glm::vec2& position, const float rotation, const glm::vec2& size, const Ref<Texture>& texture, const float texScale, const glm::vec4& tintColour)
+	{
+		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture, texScale, tintColour);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation, const glm::vec2& size, const Ref<Texture>& texture, const float texScale, const glm::vec4& tintColour)
 	{
 		RS_PROFILE_FUNCTION();
 
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Colour", tintColour);
-		s_Data->TextureShader->SetFloat("u_TexScale", scale);
+		s_Data->TextureShader->SetFloat("u_TexScale", texScale);
 
-		const auto transform = glm::translate(glm::mat4(1.f), position) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+		const auto transform = glm::translate(glm::mat4(1.f), position) * glm::rotate(glm::mat4(1.f), rotation,{ 0.f, 0.f, 1.f }) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
 
 		texture->Bind();
+
+		/*
+		static auto Bayer8 = Texture2D::Create("assets/textures/bayer8.png");
+		Bayer8->Bind(1);*/
 
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
