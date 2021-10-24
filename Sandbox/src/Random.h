@@ -12,7 +12,7 @@ public:
 
 	static float Next()
 	{
-		return static_cast<float>(s_Distribution(s_RandomEngine)) / static_cast<float>(std::numeric_limits<uint32_t>::max());
+		return static_cast<float>(s_Distribution(s_RandomEngine)) / static_cast<float>(std::numeric_limits<std::mt19937::result_type>::max());
 	}
 
 private:
